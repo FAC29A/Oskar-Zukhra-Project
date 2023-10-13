@@ -1,5 +1,7 @@
 const earthquakeForm = document.getElementById("earthquakeForm");
 const countResult = document.getElementById("countResult");
+const earthquakeInfo = []; // Create an array to store earthquake info
+
 
 earthquakeForm.addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -67,43 +69,40 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
   // Fetch Earthquake Data
 
-  try {
-    const response = await fetch(apiUrl);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      const earthquakes = data.features;
+    try {
+        const response = await fetch(apiUrl);
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data)
+            const earthquakes = data.features; // Array of earthquake data
 
-      // Initialize counts for different magnitude ranges
-      let totalEarthquakes = 0;
-      let smallMagnitudeCount = 0;
-      let mediumMagnitudeCount = 0;
-      let largeMagnitudeCount = 0;
+            // Get the total number of earthquakes
+            const totalEarthquakes = earthquakes.length;
 
-      earthquakes.forEach((earthquake) => {
-        const magnitude = earthquake.properties.mag;
-        totalEarthquakes++;
+            // Store earthquake information in the earthquakeInfo array
+            earthquakes.forEach((earthquake) => {
+                const info = {
+                    place: earthquake.properties.place,
+                    magnitude: earthquake.properties.mag,
+                    date: new Date(earthquake.properties.time),
+                    coordinates: {
+                        latitude: earthquake.geometry.coordinates[1],
+                        longitude: earthquake.geometry.coordinates[0],
+                    },
+                };
+                earthquakeInfo.push(info);
+            });
 
-        if (magnitude < 4) {
-          smallMagnitudeCount++;
-        } else if (magnitude >= 4 && magnitude < 6) {
-          mediumMagnitudeCount++;
+            // Display the total number of earthquakes
+            countResult.innerHTML = `
+                <p>Total Earthquakes: ${totalEarthquakes} </p>
+            `;
         } else {
-          largeMagnitudeCount++;
+            countResult.textContent = "Error fetching data.";
         }
-      });
-
-      // Display counts
-      countResult.innerHTML = `
-                        Total Earthquakes: ${totalEarthquakes}<br>
-                        Earthquakes with Magnitude < 4: ${smallMagnitudeCount}<br>
-                        Earthquakes with Magnitude 4-6: ${mediumMagnitudeCount}<br>
-                        Earthquakes with Magnitude >= 6: ${largeMagnitudeCount}
-                    `;
-    } else {
-      countResult.textContent = "Error fetching data.";
+    } catch (error) {
+        countResult.textContent = "An error occurred.";
     }
-  } catch (error) {
-    countResult.textContent = "An error occurred.";
-  }
+    console.log(earthquakeInfo)
 });
+
