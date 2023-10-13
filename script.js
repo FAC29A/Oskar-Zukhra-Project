@@ -1,8 +1,8 @@
 const earthquakeForm = document.getElementById("earthquakeForm");
 const countResult = document.getElementById("countResult");
 
-earthquakeForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
+earthquakeForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
     const latitude = document.getElementById("latitude").value;
     const longitude = document.getElementById("longitude").value;
@@ -21,34 +21,15 @@ earthquakeForm.addEventListener("submit", async function (e) {
         if (response.ok) {
             const data = await response.json();
             console.log(data)
-            const earthquakes = data.features;
+            const earthquakes = data.features; // Array of earthquake data
 
-            // Initialize counts for different magnitude ranges
-            let totalEarthquakes = 0;
-            let smallMagnitudeCount = 0;
-            let mediumMagnitudeCount = 0;
-            let largeMagnitudeCount = 0;
+            // Get the total number of earthquakes
+            const totalEarthquakes = earthquakes.length;
 
-            earthquakes.forEach((earthquake) => {
-                const magnitude = earthquake.properties.mag;
-                totalEarthquakes++;
-
-                if (magnitude < 4) {
-                    smallMagnitudeCount++;
-                } else if (magnitude >= 4 && magnitude < 6) {
-                    mediumMagnitudeCount++;
-                } else {
-                    largeMagnitudeCount++;
-                }
-            });
-
-            // Display counts
+            // Display the total number of earthquakes
             countResult.innerHTML = `
-                        Total Earthquakes: ${totalEarthquakes}<br>
-                        Earthquakes with Magnitude < 4: ${smallMagnitudeCount}<br>
-                        Earthquakes with Magnitude 4-6: ${mediumMagnitudeCount}<br>
-                        Earthquakes with Magnitude >= 6: ${largeMagnitudeCount}
-                    `;
+                <p>Total Earthquakes: ${totalEarthquakes} </p>
+            `;
         } else {
             countResult.textContent = "Error fetching data.";
         }
