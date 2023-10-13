@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>USGS Earthquake Count</title>
-</head>
-<body>
-<h1>USGS Earthquake Count by Magnitude</h1>
-<form id="earthquakeForm">
-    <label for="latitude">Latitude:</label>
-    <input type="text" id="latitude" placeholder="Enter latitude" required>
-    <label for="longitude">Longitude:</label>
-    <input type="text" id="longitude" placeholder="Enter longitude" required>
-    <label for="radius">Radius (km):</label>
-    <input type="number" id="radius" placeholder="Enter radius" required>
-    <label for="startYear">Start Year:</label>
-    <input type="number" id="startYear" placeholder="Enter start year" required>
-    <label for="endYear">End Year:</label>
-    <input type="number" id="endYear" placeholder="Enter end year" required>
-    <button type="submit">Get Count</button>
-</form>
-<p id="countResult"></p>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <h1>USGS Earthquake Count by Magnitude</h1>
+    <form id="earthquakeForm">
+      <label for="latitude">Latitude:</label>
+      <input type="text" id="latitude" placeholder="Enter latitude" required />
+      <label for="longitude">Longitude:</label>
+      <input
+        type="text"
+        id="longitude"
+        placeholder="Enter longitude"
+        required
+      />
+      <label for="radius">Radius (km):</label>
+      <input type="number" id="radius" placeholder="Enter radius" required />
+      <label for="startYear">Start Year:</label>
+      <input
+        type="number"
+        id="startYear"
+        placeholder="Enter start year"
+        required
+      />
+      <label for="endYear">End Year:</label>
+      <input type="number" id="endYear" placeholder="Enter end year" required />
+      <button type="submit">Get Count</button>
+    </form>
+    <p id="countResult"></p>
 
-<script src="script.js"></script>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
