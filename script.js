@@ -1,5 +1,7 @@
 const earthquakeForm = document.getElementById("earthquakeForm");
 const countResult = document.getElementById("countResult");
+const earthquakeInfo = []; // Create an array to store earthquake info
+
 
 earthquakeForm.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -26,6 +28,20 @@ earthquakeForm.addEventListener("submit", async function (event) {
             // Get the total number of earthquakes
             const totalEarthquakes = earthquakes.length;
 
+            // Store earthquake information in the earthquakeInfo array
+            earthquakes.forEach((earthquake) => {
+                const info = {
+                    place: earthquake.properties.place,
+                    magnitude: earthquake.properties.mag,
+                    date: new Date(earthquake.properties.time),
+                    coordinates: {
+                        latitude: earthquake.geometry.coordinates[1],
+                        longitude: earthquake.geometry.coordinates[0],
+                    },
+                };
+                earthquakeInfo.push(info);
+            });
+
             // Display the total number of earthquakes
             countResult.innerHTML = `
                 <p>Total Earthquakes: ${totalEarthquakes} </p>
@@ -36,4 +52,6 @@ earthquakeForm.addEventListener("submit", async function (event) {
     } catch (error) {
         countResult.textContent = "An error occurred.";
     }
+    console.log(earthquakeInfo)
 });
+
