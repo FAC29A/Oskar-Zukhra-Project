@@ -5,11 +5,12 @@
     <link rel="stylesheet" href="style.css" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="script.js"></script>
   </head>
   <body>
     <h1>USGS Earthquake Count by Magnitude</h1>
     <form id="earthquakeForm">
+      <label for="City">city:</label>
+      <input type="text" id="city" placeholder="Enter your city" required />
       <label for="latitude">Latitude:</label>
       <input type="text" id="latitude" placeholder="Enter latitude" required />
       <label for="longitude">Longitude:</label>
