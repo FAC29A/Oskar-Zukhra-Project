@@ -7,8 +7,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const city = document.getElementById("city").value;
-  const latitude = document.getElementById("latitude").value;
-  const longitude = document.getElementById("longitude").value;
   const radius = document.getElementById("radius").value;
   const startYear = document.getElementById("startYear").value;
   const endYear = document.getElementById("endYear").value;
@@ -16,9 +14,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
   // Construct the date range using start and end years
   const startDate = `${startYear}-01-01T00:00:00`;
   const endDate = `${endYear}-12-31T23:59:59`;
-
-  const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}&starttime=${startDate}&endtime=${endDate}&format=geojson`;
-  const geoUrl = `https://nominatim.openstreetmap.org/search?addressdetails=1&q=${city}&format=jsonv2&limit=1`;
+    const geoUrl = `https://nominatim.openstreetmap.org/search?addressdetails=1&q=${city}&format=jsonv2&limit=1`;
 
   // Fetch Geo Data
   console.log(city);
@@ -70,6 +66,11 @@ earthquakeForm.addEventListener("submit", async function (e) {
   // Fetch Earthquake Data
 
     try {
+        // Await  fetching latitude and longitude from geoAPI
+        const latitude = await getLatitude();
+        const longitude = await getLongitude();
+        // Fetching earthquake data using apiUrl
+        const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}&starttime=${startDate}&endtime=${endDate}&format=geojson`;
         const response = await fetch(apiUrl);
         if (response.ok) {
             const data = await response.json();
