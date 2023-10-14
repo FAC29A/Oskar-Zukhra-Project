@@ -68,7 +68,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
   function generateTable(data) {
     const table = document.createElement("table");
-    const headers = ["Place", "Magnitude", "Date", "Latitude", "Longitude"];
+    const headers = ["Place", "Magnitude", "Date"];
 
     // Create table headers
     const headerRow = document.createElement("tr");
@@ -84,13 +84,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
       const row = document.createElement("tr");
 
       // Extract attributes from the earthquake object
-      const attributes = [
-        "place",
-        "magnitude",
-        "date",
-        "coordinates.latitude",
-        "coordinates.longitude",
-      ];
+      const attributes = ["place", "magnitude", "date"];
       attributes.forEach((attribute) => {
         const cell = document.createElement("td");
         let value = earthquake;
