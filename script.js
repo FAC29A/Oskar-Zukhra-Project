@@ -2,7 +2,6 @@ const earthquakeForm = document.getElementById("earthquakeForm");
 const countResult = document.getElementById("countResult");
 const earthquakeInfo = []; // Create an array to store earthquake info
 
-
 earthquakeForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -67,42 +66,84 @@ earthquakeForm.addEventListener("submit", async function (e) {
       console.error("Error:", error);
     });
 
+  function generateTable(data) {
+    const table = document.createElement("table");
+    const headers = ["Place", "Magnitude", "Date", "Latitude", "Longitude"];
+
+    // Create table headers
+    const headerRow = document.createElement("tr");
+    headers.forEach((headerText) => {
+      const header = document.createElement("th");
+      header.textContent = headerText;
+      headerRow.appendChild(header);
+    });
+    table.appendChild(headerRow);
+
+    // Create table rows with earthquake information
+    data.forEach((earthquake) => {
+      const row = document.createElement("tr");
+
+      // Extract attributes from the earthquake object
+      const attributes = [
+        "place",
+        "magnitude",
+        "date",
+        "coordinates.latitude",
+        "coordinates.longitude",
+      ];
+      attributes.forEach((attribute) => {
+        const cell = document.createElement("td");
+        let value = earthquake;
+        attribute.split(".").forEach((key) => {
+          value = value[key];
+        });
+        cell.textContent = value;
+        row.appendChild(cell);
+      });
+
+      table.appendChild(row);
+    });
+
+    return table;
+  }
+
   // Fetch Earthquake Data
 
-    try {
-        const response = await fetch(apiUrl);
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data)
-            const earthquakes = data.features; // Array of earthquake data
+  try {
+    const response = await fetch(apiUrl);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      const earthquakes = data.features; // Array of earthquake data
 
-            // Get the total number of earthquakes
-            const totalEarthquakes = earthquakes.length;
+      // Get the total number of earthquakes
+      const totalEarthquakes = earthquakes.length;
 
-            // Store earthquake information in the earthquakeInfo array
-            earthquakes.forEach((earthquake) => {
-                const info = {
-                    place: earthquake.properties.place,
-                    magnitude: earthquake.properties.mag,
-                    date: new Date(earthquake.properties.time),
-                    coordinates: {
-                        latitude: earthquake.geometry.coordinates[1],
-                        longitude: earthquake.geometry.coordinates[0],
-                    },
-                };
-                earthquakeInfo.push(info);
-            });
+      // Store earthquake information in the earthquakeInfo array
+      earthquakes.forEach((earthquake) => {
+        const info = {
+          place: earthquake.properties.place,
+          magnitude: earthquake.properties.mag,
+          date: new Date(earthquake.properties.time),
+          coordinates: {
+            latitude: earthquake.geometry.coordinates[1],
+            longitude: earthquake.geometry.coordinates[0],
+          },
+        };
+        earthquakeInfo.push(info);
+      });
 
-            // Display the total number of earthquakes
-            countResult.innerHTML = `
+      // Display the total number of earthquakes
+      countResult.innerHTML = `
                 <p>Total Earthquakes: ${totalEarthquakes} </p>
             `;
-        } else {
-            countResult.textContent = "Error fetching data.";
-        }
-    } catch (error) {
-        countResult.textContent = "An error occurred.";
+      const table = generateTable(earthquakeInfo);
+      document.body.appendChild(table);
+    } else {
+      countResult.textContent = "Error fetching data.";
     }
-    console.log(earthquakeInfo)
+  } catch (error) {
+    countResult.textContent = "An error occurred.";
+  }
+  console.log(earthquakeInfo);
 });
-
