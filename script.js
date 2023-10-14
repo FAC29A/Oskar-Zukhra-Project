@@ -2,10 +2,10 @@ const earthquakeForm = document.getElementById("earthquakeForm");
 const countResult = document.getElementById("countResult");
 const earthquakeInfo = []; // Create an array to store earthquake info
 
-
 earthquakeForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
+  earthquakeInfo.length = 0; // Remove previous data if any
   const city = document.getElementById("city").value;
   const radius = document.getElementById("radius").value;
   const startYear = document.getElementById("startYear").value;
@@ -15,6 +15,11 @@ earthquakeForm.addEventListener("submit", async function (e) {
   const startDate = `${startYear}-01-01T00:00:00`;
   const endDate = `${endYear}-12-31T23:59:59`;
     const geoUrl = `https://nominatim.openstreetmap.org/search?addressdetails=1&q=${city}&format=jsonv2&limit=1`;
+
+  const existingTable = document.getElementById("earthquakeTable");
+  if (existingTable) {
+    existingTable.remove();
+  }
 
   // Fetch Geo Data
   console.log(city);
@@ -63,6 +68,41 @@ earthquakeForm.addEventListener("submit", async function (e) {
       console.error("Error:", error);
     });
 
+  function generateTable(data) {
+    const table = document.createElement("table");
+    const headers = ["Place", "Magnitude", "Date"];
+
+    // Create table headers
+    const headerRow = document.createElement("tr");
+    headers.forEach((headerText) => {
+      const header = document.createElement("th");
+      header.textContent = headerText;
+      headerRow.appendChild(header);
+    });
+    table.appendChild(headerRow);
+
+    // Create table rows with earthquake information
+    data.forEach((earthquake) => {
+      const row = document.createElement("tr");
+
+      // Extract attributes from the earthquake object
+      const attributes = ["place", "magnitude", "date"];
+      attributes.forEach((attribute) => {
+        const cell = document.createElement("td");
+        let value = earthquake;
+        attribute.split(".").forEach((key) => {
+          value = value[key];
+        });
+        cell.textContent = value;
+        row.appendChild(cell);
+      });
+
+      table.appendChild(row);
+    });
+
+    return table;
+  }
+
   // Fetch Earthquake Data
 
     try {
@@ -98,12 +138,14 @@ earthquakeForm.addEventListener("submit", async function (e) {
             countResult.innerHTML = `
                 <p>Total Earthquakes: ${totalEarthquakes} </p>
             `;
-        } else {
-            countResult.textContent = "Error fetching data.";
-        }
-    } catch (error) {
-        countResult.textContent = "An error occurred.";
+      const table = generateTable(earthquakeInfo);
+      table.id = "earthquakeTable";
+      document.body.appendChild(table);
+    } else {
+      countResult.textContent = "Error fetching data.";
     }
-    console.log(earthquakeInfo)
+  } catch (error) {
+    countResult.textContent = "An error occurred.";
+  }
+  console.log(earthquakeInfo);
 });
-
