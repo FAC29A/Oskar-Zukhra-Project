@@ -5,6 +5,7 @@ const earthquakeInfo = []; // Create an array to store earthquake info
 earthquakeForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
+  earthquakeInfo.length = 0; // Remove previous data if any
   const city = document.getElementById("city").value;
   const latitude = document.getElementById("latitude").value;
   const longitude = document.getElementById("longitude").value;
@@ -18,6 +19,11 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
   const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}&starttime=${startDate}&endtime=${endDate}&format=geojson`;
   const geoUrl = `https://nominatim.openstreetmap.org/search?addressdetails=1&q=${city}&format=jsonv2&limit=1`;
+
+  const existingTable = document.getElementById("earthquakeTable");
+  if (existingTable) {
+    existingTable.remove();
+  }
 
   // Fetch Geo Data
   console.log(city);
@@ -132,6 +138,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
                 <p>Total Earthquakes: ${totalEarthquakes} </p>
             `;
       const table = generateTable(earthquakeInfo);
+      table.id = "earthquakeTable";
       document.body.appendChild(table);
     } else {
       countResult.textContent = "Error fetching data.";
