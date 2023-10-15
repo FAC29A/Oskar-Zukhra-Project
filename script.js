@@ -29,7 +29,13 @@ async function fetchGeoData(city) {
 }
 
 // Function to fetch earthquake data
-async function fetchEarthquakeData(latitude, longitude, radius, startDate, endDate) {
+async function fetchEarthquakeData(
+  latitude,
+  longitude,
+  radius,
+  startDate,
+  endDate
+) {
   const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}&starttime=${startDate}&endtime=${endDate}&format=geojson`;
   const data = await fetchData(apiUrl);
   console.log(data);
@@ -62,7 +68,9 @@ function generateTable(data) {
       attribute.split(".").forEach((key) => {
         value = value[key];
       });
-      cell.textContent = value;
+
+      // Check if the value is null, if so, display "data not available"
+      cell.textContent = value !== null ? value : "data not available";
       row.appendChild(cell);
     });
 
@@ -88,7 +96,13 @@ earthquakeForm.addEventListener("submit", async function (e) {
     const startDate = `${startYear}-01-01T00:00:00`;
     const endDate = `${endYear}-12-31T23:59:59`;
 
-    const earthquakes = await fetchEarthquakeData(latitude, longitude, radius, startDate, endDate);
+    const earthquakes = await fetchEarthquakeData(
+      latitude,
+      longitude,
+      radius,
+      startDate,
+      endDate
+    );
 
     // Get the total number of earthquakes
     const totalEarthquakes = earthquakes.length;
@@ -127,10 +141,8 @@ earthquakeForm.addEventListener("submit", async function (e) {
     table.id = "earthquakeTable";
     document.body.appendChild(table);
     tableCreated = true;
-
   } catch (error) {
     countResult.textContent = "An error occurred.";
     console.error("Error:", error);
   }
 });
-
