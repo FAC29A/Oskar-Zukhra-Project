@@ -74,8 +74,20 @@ function generateTable(data) {
         value = value[key];
       });
 
-      // Check if the value is null, if so, display "data not available"
-      cell.textContent = value !== null ? value : "data not available";
+      // Format date and time
+      if (attribute === "date") {
+        const formattedDate = new Date(value).toLocaleString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        cell.textContent = formattedDate;
+      } else {
+        // Check if the value is null, if so, display "data not available"
+        cell.textContent = value !== null ? value : "data not available";
+      }
       row.appendChild(cell);
     });
 
