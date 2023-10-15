@@ -45,7 +45,7 @@ async function fetchEarthquakeData(
 // Function to dynamiclly generate and populate the table
 function generateTable(data) {
   const table = document.createElement("table");
-  const headers = ["Place", "Magnitude", "Date"];
+  const headers = ["#", "Place", "Magnitude", "Date"];
 
   // Create table headers
   const headerRow = document.createElement("tr");
@@ -57,8 +57,13 @@ function generateTable(data) {
   table.appendChild(headerRow);
 
   // Create table rows with earthquake information
-  data.forEach((earthquake) => {
+  data.forEach((earthquake, index) => {
     const row = document.createElement("tr");
+
+    // Add index in the first column
+    const indexCell = document.createElement("td");
+    indexCell.textContent = index + 1;
+    row.appendChild(indexCell);
 
     // Extract attributes from the earthquake object
     const attributes = ["place", "magnitude", "date"];
