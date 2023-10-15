@@ -29,7 +29,13 @@ async function fetchGeoData(city) {
 }
 
 // Function to fetch earthquake data
-async function fetchEarthquakeData(latitude, longitude, radius, startDate, endDate) {
+async function fetchEarthquakeData(
+  latitude,
+  longitude,
+  radius,
+  startDate,
+  endDate
+) {
   const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}&starttime=${startDate}&endtime=${endDate}&format=geojson`;
   const data = await fetchData(apiUrl);
   console.log(data);
@@ -39,7 +45,7 @@ async function fetchEarthquakeData(latitude, longitude, radius, startDate, endDa
 // Function to dynamiclly generate and populate the table
 function generateTable(data) {
   const table = document.createElement("table");
-  const headers = ["Place", "Magnitude", "Date"];
+  const headers = ["#", "Place", "Magnitude", "Date"];
 
   // Create table headers
   const headerRow = document.createElement("tr");
@@ -51,8 +57,13 @@ function generateTable(data) {
   table.appendChild(headerRow);
 
   // Create table rows with earthquake information
-  data.forEach((earthquake) => {
+  data.forEach((earthquake, index) => {
     const row = document.createElement("tr");
+
+    // Add index in the first column
+    const indexCell = document.createElement("td");
+    indexCell.textContent = index + 1;
+    row.appendChild(indexCell);
 
     // Extract attributes from the earthquake object
     const attributes = ["place", "magnitude", "date"];
@@ -62,7 +73,21 @@ function generateTable(data) {
       attribute.split(".").forEach((key) => {
         value = value[key];
       });
-      cell.textContent = value;
+
+      // Format date and time
+      if (attribute === "date") {
+        const formattedDate = new Date(value).toLocaleString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        cell.textContent = formattedDate;
+      } else {
+        // Check if the value is null, if so, display "data not available"
+        cell.textContent = value !== null ? value : "data not available";
+      }
       row.appendChild(cell);
     });
 
@@ -88,7 +113,13 @@ earthquakeForm.addEventListener("submit", async function (e) {
     const startDate = `${startYear}-01-01T00:00:00`;
     const endDate = `${endYear}-12-31T23:59:59`;
 
-    const earthquakes = await fetchEarthquakeData(latitude, longitude, radius, startDate, endDate);
+    const earthquakes = await fetchEarthquakeData(
+      latitude,
+      longitude,
+      radius,
+      startDate,
+      endDate
+    );
 
     // Get the total number of earthquakes
     const totalEarthquakes = earthquakes.length;
@@ -127,10 +158,8 @@ earthquakeForm.addEventListener("submit", async function (e) {
     table.id = "earthquakeTable";
     document.body.appendChild(table);
     tableCreated = true;
-
   } catch (error) {
     countResult.textContent = "An error occurred.";
     console.error("Error:", error);
   }
 });
-
