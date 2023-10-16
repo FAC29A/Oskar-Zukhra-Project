@@ -3,23 +3,59 @@
   <head>
     <title>USGS Earthquake Count</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Pangolin&display=swap"
+      rel="stylesheet"
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/favicon.png" />
+    <script src="scriptStyle.js"></script>
   </head>
   <body>
-    <h1>USGS Earthquake Count by Magnitude</h1>
-    <form id="earthquakeForm">
-      <label for="city">City:</label>
-      <input type="text" id="city" placeholder="Enter your city" required />
-      <label for="radius">Radius (km):</label>
-      <input type="number" id="radius" placeholder="Enter radius" required />
-      <label for="startYear">Start Year:</label>
-      <input type="number" id="startYear" placeholder="Enter start year" required/>
-      <label for="endYear">End Year:</label>
-      <input type="number" id="endYear" placeholder="Enter end year" required />
-      <button type="submit">Get Count</button>
-    </form>
-    <p id="countResult"></p>
+    <header>
+      <div id="header-container">
+        <h1>Quake Finder</h1>
+        <p>Find earthquakes in your area</p>
+      </div>
+    </header>
+    <main>
+      <div id="form-container">
+        <form id="earthquakeForm">
+          <label for="city">City:</label>
+          <input type="text" id="city" placeholder="Enter your city" required />
+          <label for="startYear">Start Year:</label>
+          <input
+            type="number"
+            id="startYear"
+            placeholder="Enter start year"
+            required
+          />
+          <label for="endYear">End Year:</label>
+          <input
+            type="number"
+            id="endYear"
+            placeholder="Enter end year"
+            required
+          />
+          <label for="radius">Radius: <span id="radius-value"></span></label>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            class="slider"
+            id="radius"
+          />
+          <button type="submit">Get Count</button>
+        </form>
+      </div>
+      <div id="result-container">
+        <p id="countResult"></p>
+        <div id="tableElement"></div>
+      </div>
+    </main>
+    <footer>Created by Oskar & Zukhra for FAC29A</footer>
 
     <script src="script.js"></script>
   </body>

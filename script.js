@@ -123,6 +123,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
     // Get the total number of earthquakes
     const totalEarthquakes = earthquakes.length;
+    const tableElement = document.getElementById("tableElement");
 
     // Store earthquake information in the earthquakeInfo array
     earthquakeInfo.length = 0; // Clear the array
@@ -156,7 +157,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
     table.id = "earthquakeTable";
-    document.body.appendChild(table);
+    tableElement.appendChild(table);
     tableCreated = true;
   } catch (error) {
     countResult.textContent = "An error occurred.";
