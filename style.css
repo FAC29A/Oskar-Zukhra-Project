@@ -6,8 +6,15 @@
   --font-dark: #212427;
 }
 
+/* Style */
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: var(--background);
+  box-sizing: border-box;
+  min-height: 100vh;
+  margin: 0;
 }
 
 h1 {
@@ -15,7 +22,7 @@ h1 {
 }
 
 #form-container {
-  max-width: 1400px;
+  max-width: 200px;
   margin: auto;
 }
 
@@ -43,4 +50,12 @@ button {
   height: 2rem;
   border-radius: 5px;
   border: black solid 2px;
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem 0;
+  text-align: center;
 }
