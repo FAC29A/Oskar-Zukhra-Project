@@ -11,6 +11,7 @@
 /* -- STYLE -- */
 
 body {
+  font-family: "Josefin Sans", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,6 +61,7 @@ label {
 }
 
 input {
+  font-family: "Josefin Sans", sans-serif;
   min-width: 200px;
   height: 1.5rem;
   border-radius: 5px;
@@ -105,8 +107,11 @@ input {
 }
 
 button {
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
   margin-top: 1rem;
-  width: 5rem;
+  padding: 0.5rem;
   height: 2rem;
   border-radius: 5px;
   border: var(--font-dark) solid 2px;
