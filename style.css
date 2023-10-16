@@ -96,6 +96,11 @@ input {
   opacity: 1;
 }
 
+#radius-value {
+  color: var(--highlight);
+  font-weight: bold;
+}
+
 button {
   margin-top: 1rem;
   width: 5rem;
