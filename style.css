@@ -16,7 +16,9 @@ body {
   justify-content: space-between;
   background-color: var(--background);
   box-sizing: border-box;
-  min-height: 100vh;
+  height: 100vh;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Header */
@@ -109,7 +111,15 @@ button {
   border: var(--font-dark) solid 2px;
 }
 
-/* Table */
+/* Result and Table */
+
+#result-container {
+  margin-top: 2rem;
+}
+
+#countResult {
+  text-align: center;
+}
 
 #earthquakeTable {
   border: black solid 2px;
