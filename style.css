@@ -1,3 +1,15 @@
+/* Color palette */
+:root {
+  --background: #eeebe6;
+  --highlight: #8ab5bb;
+  --font-bright: #ffffff;
+  --font-dark: #212427;
+}
+
+body {
+  background-color: var(--background);
+}
+
 h1 {
   text-align: center;
 }
