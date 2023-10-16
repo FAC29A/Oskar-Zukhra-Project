@@ -70,6 +70,7 @@ label {
 
 input {
   font-family: var(--font-main);
+  font-size: 1rem;
   min-width: 200px;
   height: 1.5rem;
   border-radius: 5px;
