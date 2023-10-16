@@ -6,12 +6,15 @@
   --highlight: #8ab5bb;
   --font-bright: #ffffff;
   --font-dark: #212427;
+
+  --font-title: 'Pangolin', sans-serif;
+  --font-main: "Josefin Sans", sans-serif;
 }
 
 /* -- STYLE -- */
 
 body {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-main);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -33,6 +36,8 @@ body {
 }
 
 h1 {
+  font-family: var(--font-title);
+  font-weight: 900;
   font-size: 3rem;
   letter-spacing: 0.2rem;
   margin-bottom: 0;
@@ -61,7 +66,7 @@ label {
 }
 
 input {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-main);
   min-width: 200px;
   height: 1.5rem;
   border-radius: 5px;
@@ -107,7 +112,7 @@ input {
 }
 
 button {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-main)
   font-weight: bold;
   font-size: 1rem;
   margin-top: 1rem;
