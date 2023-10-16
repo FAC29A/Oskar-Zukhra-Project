@@ -19,13 +19,6 @@
         <form id="earthquakeForm">
           <label for="city">City:</label>
           <input type="text" id="city" placeholder="Enter your city" required />
-          <label for="radius">Radius (km):</label>
-          <input
-            type="number"
-            id="radius"
-            placeholder="Enter radius"
-            required
-          />
           <label for="startYear">Start Year:</label>
           <input
             type="number"
@@ -39,6 +32,15 @@
             id="endYear"
             placeholder="Enter end year"
             required
+          />
+          <label for="radius">Radius (km):</label>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            class="slider"
+            id="radius"
           />
           <button type="submit">Get Count</button>
         </form>
