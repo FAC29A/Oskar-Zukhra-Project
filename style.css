@@ -19,6 +19,7 @@ body {
   height: 100vh;
   margin-top: 0;
   margin-bottom: 0;
+  color: var(--font-dark);
 }
 
 /* Header */
@@ -114,16 +115,21 @@ button {
 /* Result and Table */
 
 #result-container {
-  margin-top: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
 }
 
 #countResult {
   text-align: center;
+  font-size: 1.5rem;
 }
 
 #earthquakeTable {
-  border: black solid 2px;
+  min-width: 50%;
+  max-width: 100%;
   border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
   margin-left: auto;
   margin-right: auto;
 }
@@ -136,7 +142,7 @@ th {
 
 td {
   padding: 0.5rem;
-  border: 1px solid #ddd;
+  border: 2px solid var(--highlight);
 }
 
 tr:nth-child(even) {
