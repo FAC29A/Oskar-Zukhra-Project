@@ -2,6 +2,7 @@
 /* Color palette */
 :root {
   --background: #eeebe6;
+  --container: #dfe7e8;
   --highlight: #8ab5bb;
   --font-bright: #ffffff;
   --font-dark: #212427;
@@ -16,7 +17,6 @@ body {
   background-color: var(--background);
   box-sizing: border-box;
   min-height: 100vh;
-  margin: 0;
 }
 
 /* Header */
@@ -107,6 +107,34 @@ button {
   height: 2rem;
   border-radius: 5px;
   border: var(--font-dark) solid 2px;
+}
+
+/* Table */
+
+#earthquakeTable {
+  border: black solid 2px;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th {
+  background-color: var(--highlight);
+  text-align: left;
+  padding: 0.5rem;
+}
+
+td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: var(--container);
+}
+
+tr:hover {
+  background-color: var(--font-bright);
 }
 
 /* Footer */
