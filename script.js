@@ -49,9 +49,16 @@ function generateTable(data) {
 
   // Create table headers
   const headerRow = document.createElement("tr");
-  headers.forEach((headerText) => {
+  headers.forEach((headerText, index) => {
     const header = document.createElement("th");
     header.textContent = headerText;
+    // Add IDs to the "Magnitude" and "Date" headers
+    if (index === 2) {
+      header.id = "magnitudeHeader";
+    } else if (index === 3) {
+      header.id = "dateHeader";
+    }
+
     headerRow.appendChild(header);
   });
   table.appendChild(headerRow);
@@ -159,8 +166,79 @@ earthquakeForm.addEventListener("submit", async function (e) {
     table.id = "earthquakeTable";
     tableElement.appendChild(table);
     tableCreated = true;
+
+    // Attach event listeners to the specific headers for sorting
+    const magnitudeHeader = document.getElementById("magnitudeHeader");
+    const dateHeader = document.getElementById("dateHeader");
+
+
+    // Add event listeners to the specific headers for sorting
+    magnitudeHeader.addEventListener("click", () => {
+      sortTable(2); // Sort by Magnitude
+    });
+
+    dateHeader.addEventListener("click", () => {
+      sortTable(3); // Sort by Date
+    });
+
   } catch (error) {
     countResult.textContent = "An error occurred.";
     console.error("Error:", error);
   }
 });
+
+// Keep track of sorting direction for each column
+const sortDirections = {
+  0: 1, // Default for column 0 ("#")
+  2: 1, // Default for column 2 ("Magnitude")
+  3: 1, // Default for column 3 ("Date")
+};
+
+// Function to sort the table
+function sortTable(column) {
+  const table = document.getElementById("earthquakeTable");
+  const rows = Array.from(table.rows).slice(1); // Skip the header row
+
+  rows.sort((a, b) => {
+    const aValue = a.cells[column].textContent;
+    const bValue = b.cells[column].textContent;
+
+    // Determine the sorting order based on the column and direction
+    const order = sortDirections[column];
+
+    if (column === 0) {
+      // For the "#" column, compare as numbers
+      return (Number(aValue) - Number(bValue)) * order;
+    } else if (column === 3) {
+      // For the "Date" column, parse and compare as dates
+      const aDate = new Date(aValue);
+      const bDate = new Date(bValue);
+      return (aDate - bDate) * order;
+    } else {
+      // For other columns, compare as strings
+      return aValue.localeCompare(bValue) * order;
+    }
+  });
+
+  // Toggle the sorting direction for the current column
+  sortDirections[column] *= -1;
+
+  // Clear the table and re-append rows in the sorted order
+  while (table.rows.length > 1) {
+    table.deleteRow(1);
+  }
+
+  rows.forEach((row) => {
+    table.appendChild(row);
+  });
+
+  // Update the sorting symbols
+  const headers = document.querySelectorAll(".sortable-header");
+  headers.forEach((header, index) => {
+    if (index === column) {
+      const arrow = header.querySelector(".sort-arrow");
+      arrow.classList.remove("up", "down");
+      arrow.classList.add(sortDirections[column] === 1 ? "up" : "down");
+    }
+  });
+}
