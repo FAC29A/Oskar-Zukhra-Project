@@ -202,10 +202,23 @@ tr:hover {
   background-color: var(--highlight);
   border-radius: 50%;
   border: solid 2px var(--font-dark);
+  animation: bounce-question-mark 0.5s ease-in-out 2s 2 forwards;
 }
 
 #question-mark {
   height: 40px;
+}
+
+@keyframes bounce-question-mark {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* Footer */
