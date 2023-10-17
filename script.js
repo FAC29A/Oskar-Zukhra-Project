@@ -1,6 +1,7 @@
 const earthquakeForm = document.getElementById("earthquakeForm");
 const countResult = document.getElementById("countResult");
 const earthquakeInfo = [];
+const loader = document.getElementById("loader");
 let tableCreated = false;
 
 // Function to fetch data from a given URL and return it as JSON
@@ -105,6 +106,8 @@ earthquakeForm.addEventListener("submit", async function (e) {
   const startYear = document.getElementById("startYear").value;
   const endYear = document.getElementById("endYear").value;
 
+  loader.style.display = "block";
+
   try {
     const result = await fetchGeoData(city);
     const latitude = result.latitude;
@@ -154,12 +157,15 @@ earthquakeForm.addEventListener("submit", async function (e) {
       }
     }
 
+    loader.style.display = "none";
+
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
     table.id = "earthquakeTable";
     tableElement.appendChild(table);
     tableCreated = true;
   } catch (error) {
+    loader.style.display = "none";
     countResult.textContent = "An error occurred.";
     console.error("Error:", error);
   }
