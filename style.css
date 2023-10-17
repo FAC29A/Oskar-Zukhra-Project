@@ -217,6 +217,12 @@ tr:hover {
   border-radius: 50%;
   border: solid 2px var(--font-dark);
   font-size: 30px;
+  opacity: 0.8;
+}
+
+.close-button:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 .close {
@@ -236,6 +242,12 @@ tr:hover {
   border-radius: 50%;
   border: solid 2px var(--font-dark);
   animation: bounce-question-mark 0.5s ease-in-out 2s 2 forwards;
+  opacity: 0.9;
+}
+
+#help-button:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 #question-mark {
