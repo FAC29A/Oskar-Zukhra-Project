@@ -26,6 +26,11 @@ body {
   color: var(--font-dark);
 }
 
+hr {
+  width: calc(100vw - 50%);
+  min-width: 300px;
+}
+
 /* Header */
 #header-container {
   display: flex;
@@ -54,7 +59,10 @@ h1 {
 /* Form */
 #form-container {
   min-width: 200px;
-  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 form {
