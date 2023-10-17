@@ -171,14 +171,24 @@ earthquakeForm.addEventListener("submit", async function (e) {
     const magnitudeHeader = document.getElementById("magnitudeHeader");
     const dateHeader = document.getElementById("dateHeader");
 
+    // Store the original text in a data attribute
+    magnitudeHeader.setAttribute("data-original-text", "Magnitude");
+    dateHeader.setAttribute("data-original-text", "Date");
+
+    // Display both ascending (▲) and descending (▼) sorting symbols
+    setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
+    setSortArrow(dateHeader, 0); // 0 represents no sorting direction
+
 
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
+      setSortArrow(magnitudeHeader, sortDirections[2]);
     });
 
     dateHeader.addEventListener("click", () => {
       sortTable(3); // Sort by Date
+      setSortArrow(dateHeader, sortDirections[3]);
     });
 
   } catch (error) {
@@ -193,6 +203,20 @@ const sortDirections = {
   2: 1, // Default for column 2 ("Magnitude")
   3: 1, // Default for column 3 ("Date")
 };
+
+// Function to set the content for the sorting arrows
+function setSortArrow(element, direction) {
+  if (element) {
+    const originalText = element.getAttribute("data-original-text");
+    if(direction === 0) {
+      element.textContent = `${originalText} ▲ ▼`; // Display both ▲ and ▼
+    } else if (direction === 1) {
+      element.textContent = `${originalText} ▲`; // Up arrow
+    } else {
+      element.textContent = `${originalText} ▼`; // Down arrow
+    }
+  }
+}
 
 // Function to sort the table
 function sortTable(column) {
@@ -236,9 +260,7 @@ function sortTable(column) {
   const headers = document.querySelectorAll(".sortable-header");
   headers.forEach((header, index) => {
     if (index === column) {
-      const arrow = header.querySelector(".sort-arrow");
-      arrow.classList.remove("up", "down");
-      arrow.classList.add(sortDirections[column] === 1 ? "up" : "down");
+      setSortArrow(header, sortDirections[column]);
     }
   });
 }
