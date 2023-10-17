@@ -225,6 +225,7 @@ function sortTable(column) {
 
   rows.sort((a, b) => {
     const aValue = a.cells[column].textContent;
+    console.log(aValue)
     const bValue = b.cells[column].textContent;
 
     // Determine the sorting order based on the column and direction
@@ -254,13 +255,5 @@ function sortTable(column) {
 
   rows.forEach((row) => {
     table.appendChild(row);
-  });
-
-  // Update the sorting symbols
-  const headers = document.querySelectorAll(".sortable-header");
-  headers.forEach((header, index) => {
-    if (index === column) {
-      setSortArrow(header, sortDirections[column]);
-    }
   });
 }
