@@ -174,25 +174,8 @@ earthquakeForm.addEventListener("submit", async function (e) {
     tableElement.appendChild(table);
     tableCreated = true;
 
-    // Attach event listeners to the specific headers for sorting
-    const magnitudeHeader = document.getElementById("magnitudeHeader");
-    
-    //Avoid errors when the table is empty and the header row is not displayed
-    if (magnitudeHeader) {
-    // Store the original text in a data attribute
-    magnitudeHeader.setAttribute("data-original-text", "Magnitude");
-
-    // Display both ascending (▲) and descending (▼) sorting symbols
-    setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
-
-
-
-    // Add event listeners to the specific headers for sorting
-    magnitudeHeader.addEventListener("click", () => {
-      sortTable(2); // Sort by Magnitude
-      setSortArrow(magnitudeHeader, sortDirections[2]);
-    });
-  }
+    // Attach event listeners and setting sorting arrows to the Magnitude header.
+    attachSortingEvents()
 
   } catch (error) {
     loader.style.display = "none";
@@ -200,6 +183,26 @@ earthquakeForm.addEventListener("submit", async function (e) {
     console.error("Error:", error);
   }
 });
+
+// Attach event listeners and setting sorting arrows to the Magnitude header.
+function attachSortingEvents() {
+  const magnitudeHeader = document.getElementById("magnitudeHeader");
+
+  //Avoid errors when the table is empty and the header row is not displayed
+  if (magnitudeHeader) {
+    // Store the original text in a data attribute
+    magnitudeHeader.setAttribute("data-original-text", "Magnitude");
+
+    // Display both ascending (▲) and descending (▼) sorting symbols
+    setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
+
+    // Add event listeners to the specific headers for sorting
+    magnitudeHeader.addEventListener("click", () => {
+      sortTable(2); // Sort by Magnitude
+      setSortArrow(magnitudeHeader, sortDirections[2]);
+    });
+  }
+}
 
 // Keep track of sorting direction for each column
 const sortDirections = {
