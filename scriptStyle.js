@@ -28,9 +28,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   helpButton.addEventListener("click", showHelpModal);
 
-  window.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
+  modals.forEach((modal) => {
+    modal.querySelector(".close").addEventListener("click", function () {
       hideModal();
-    }
+    });
+
+    window.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        hideModal();
+      }
+    });
   });
 });
