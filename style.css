@@ -196,10 +196,12 @@ tr:hover {
   position: absolute;
   box-sizing: border-box;
   left: 0;
+  right: 0;
   bottom: 0;
+  margin: auto;
   display: none;
   height: 80%;
-  width: 100%;
+  max-width: 900px;
   background-color: var(--highlight);
   padding: 2rem;
 }
@@ -252,6 +254,14 @@ tr:hover {
 
 #question-mark {
   height: 40px;
+}
+
+#help-content h2 {
+  text-align: center;
+}
+
+#help-content {
+  text-align: justify;
 }
 
 @keyframes bounce-question-mark {
