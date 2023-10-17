@@ -48,19 +48,23 @@ function generateTable(data) {
   const table = document.createElement("table");
   const headers = ["#", "Place", "Magnitude", "Date"];
 
-  // Create table headers
-  const headerRow = document.createElement("tr");
-  headers.forEach((headerText, index) => {
-    const header = document.createElement("th");
-    header.textContent = headerText;
-    // Add ID to the "Magnitude" header
-    if (index === 2) {
-      header.id = "magnitudeHeader";
-    }
+  // Check if there is data to display
+  if (data.length > 0) {
 
-    headerRow.appendChild(header);
-  });
-  table.appendChild(headerRow);
+    // Create table headers
+    const headerRow = document.createElement("tr");
+    headers.forEach((headerText, index) => {
+      const header = document.createElement("th");
+      header.textContent = headerText;
+      // Add ID to the "Magnitude" header
+      if (index === 2) {
+        header.id = "magnitudeHeader";
+      }
+
+      headerRow.appendChild(header);
+    });
+    table.appendChild(headerRow);
+  }
 
   // Create table rows with earthquake information
   data.forEach((earthquake, index) => {
@@ -170,29 +174,35 @@ earthquakeForm.addEventListener("submit", async function (e) {
     tableElement.appendChild(table);
     tableCreated = true;
 
-    // Attach event listeners to the specific headers for sorting
-    const magnitudeHeader = document.getElementById("magnitudeHeader");
+    // Attach event listeners and setting sorting arrows to the Magnitude header.
+    attachSortingEvents()
 
+  } catch (error) {
+    loader.style.display = "none";
+    countResult.textContent = "An error occurred";
+    console.error("Error:", error);
+  }
+});
+
+// Attach event listeners and setting sorting arrows to the Magnitude header.
+function attachSortingEvents() {
+  const magnitudeHeader = document.getElementById("magnitudeHeader");
+
+  //Avoid errors when the table is empty and the header row is not displayed
+  if (magnitudeHeader) {
     // Store the original text in a data attribute
     magnitudeHeader.setAttribute("data-original-text", "Magnitude");
 
     // Display both ascending (▲) and descending (▼) sorting symbols
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
 
-
-
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
       setSortArrow(magnitudeHeader, sortDirections[2]);
     });
-
-  } catch (error) {
-    loader.style.display = "none";
-    countResult.textContent = "An error occurred.";
-    console.error("Error:", error);
   }
-});
+}
 
 // Keep track of sorting direction for each column
 const sortDirections = {
@@ -221,7 +231,7 @@ function sortTable(column) {
   rows.sort((a, b) => {
     const aValue = a.cells[column].textContent;
     const bValue = b.cells[column].textContent;
-    
+
     // Determine the sorting order based on the column and direction
     const order = sortDirections[column];
 
