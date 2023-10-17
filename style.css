@@ -191,6 +191,23 @@ tr:hover {
   background-color: var(--font-bright);
 }
 
+/* Help Section */
+
+#help-button {
+  position: absolute;
+  top: 22%;
+  left: 80%;
+  height: 40px;
+  width: 40px;
+  background-color: var(--highlight);
+  border-radius: 50%;
+  border: solid 2px var(--font-dark);
+}
+
+#question-mark {
+  height: 40px;
+}
+
 /* Footer */
 footer {
   position: relative;
