@@ -221,6 +221,16 @@ tr:hover {
   }
 }
 
+.modal {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: none;
+  height: 80%;
+  width: 100%;
+  background-color: var(--highlight);
+}
+
 /* Footer */
 footer {
   position: relative;
