@@ -53,11 +53,9 @@ function generateTable(data) {
   headers.forEach((headerText, index) => {
     const header = document.createElement("th");
     header.textContent = headerText;
-    // Add IDs to the "Magnitude" and "Date" headers
+    // Add ID to the "Magnitude" header
     if (index === 2) {
       header.id = "magnitudeHeader";
-    } else if (index === 3) {
-      header.id = "dateHeader";
     }
 
     headerRow.appendChild(header);
@@ -174,26 +172,19 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
     // Attach event listeners to the specific headers for sorting
     const magnitudeHeader = document.getElementById("magnitudeHeader");
-    const dateHeader = document.getElementById("dateHeader");
 
     // Store the original text in a data attribute
     magnitudeHeader.setAttribute("data-original-text", "Magnitude");
-    dateHeader.setAttribute("data-original-text", "Date");
 
     // Display both ascending (▲) and descending (▼) sorting symbols
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
-    setSortArrow(dateHeader, 0); // 0 represents no sorting direction
+
 
 
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
       setSortArrow(magnitudeHeader, sortDirections[2]);
-    });
-
-    dateHeader.addEventListener("click", () => {
-      sortTable(3); // Sort by Date
-      setSortArrow(dateHeader, sortDirections[3]);
     });
 
   } catch (error) {
@@ -205,16 +196,14 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
 // Keep track of sorting direction for each column
 const sortDirections = {
-  0: 1, // Default for column 0 ("#")
-  2: 1, // Default for column 2 ("Magnitude")
-  3: 1, // Default for column 3 ("Date")
+  2: 1, // Default for column 2 ("Magnitude"); 1 represents ascending order
 };
 
 // Function to set the content for the sorting arrows
 function setSortArrow(element, direction) {
   if (element) {
     const originalText = element.getAttribute("data-original-text");
-    if(direction === 0) {
+    if (direction === 0) {
       element.textContent = `${originalText} ▲ ▼`; // Display both ▲ and ▼
     } else if (direction === 1) {
       element.textContent = `${originalText} ▲`; // Up arrow
@@ -231,24 +220,14 @@ function sortTable(column) {
 
   rows.sort((a, b) => {
     const aValue = a.cells[column].textContent;
-    console.log(aValue)
     const bValue = b.cells[column].textContent;
-
+    
     // Determine the sorting order based on the column and direction
     const order = sortDirections[column];
 
-    if (column === 0) {
-      // For the "#" column, compare as numbers
-      return (Number(aValue) - Number(bValue)) * order;
-    } else if (column === 3) {
-      // For the "Date" column, parse and compare as dates
-      const aDate = new Date(aValue);
-      const bDate = new Date(bValue);
-      return (aDate - bDate) * order;
-    } else {
-      // For other columns, compare as strings
-      return aValue.localeCompare(bValue) * order;
-    }
+    // Compare as strings
+    return aValue.localeCompare(bValue) * order;
+
   });
 
   // Toggle the sorting direction for the current column
