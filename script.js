@@ -6,16 +6,13 @@ let tableCreated = false;
 
 // Function to fetch data from a given URL and return it as JSON
 async function fetchData(url) {
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Error fetching data.");
-    }
-  } catch (error) {
-    throw error;
+  const response = await fetch(url);
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Error("Oops, there was a problem fetching the data. Please check your connection and try again.");
   }
+
 }
 
 // Function to fetch latitude and longitude based on the city
@@ -154,9 +151,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     console.log(earthquakeInfo);
 
     // Display the total number of earthquakes
-    countResult.innerHTML = `
-      <p>Total Earthquakes: ${totalEarthquakes} </p>
-    `;
+    displayEarthquakeMessage(totalEarthquakes, radius, city);
 
     // If a table has been previously created, remove it
     if (tableCreated) {
@@ -179,8 +174,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
   } catch (error) {
     loader.style.display = "none";
-    countResult.textContent = "An error occurred";
-    console.error("Error:", error);
+    countResult.textContent = "Sorry, we encountered an issue while processing your request. Please try again later.";
   }
 });
 
@@ -251,4 +245,18 @@ function sortTable(column) {
   rows.forEach((row) => {
     table.appendChild(row);
   });
+}
+
+// Display a message based on the total number of earthquakes found within a given radius of a city
+function displayEarthquakeMessage(totalEarthquakes, radius, city) {
+  if (totalEarthquakes > 0) {
+    countResult.innerHTML = `
+      <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
+    `;
+  } else {
+    countResult.innerHTML = `
+      <p>No earthquakes were found within ${radius}km of ${city}.</p>
+      <p>Try increasing the search radius or changing the time period.</p>
+    `;
+  }
 }
