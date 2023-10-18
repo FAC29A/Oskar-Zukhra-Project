@@ -6,16 +6,13 @@ let tableCreated = false;
 
 // Function to fetch data from a given URL and return it as JSON
 async function fetchData(url) {
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Error fetching data.");
-    }
-  } catch (error) {
-    throw error;
+  const response = await fetch(url);
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Error("Oops, there was a problem fetching the data. Please check your connection and try again.");
   }
+
 }
 
 // Function to fetch latitude and longitude based on the city
@@ -177,8 +174,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
   } catch (error) {
     loader.style.display = "none";
-    countResult.textContent = "An error occurred";
-    console.error("Error:", error);
+    countResult.textContent = "Sorry, we encountered an issue while processing your request. Please try again later.";
   }
 });
 
