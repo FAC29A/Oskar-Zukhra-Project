@@ -169,6 +169,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
     table.id = "earthquakeTable";
+    collapseForm();
     tableElement.appendChild(table);
     tableCreated = true;
 
@@ -184,7 +185,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
     setSortArrow(dateHeader, 0); // 0 represents no sorting direction
 
-
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
@@ -195,7 +195,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
       sortTable(3); // Sort by Date
       setSortArrow(dateHeader, sortDirections[3]);
     });
-
   } catch (error) {
     loader.style.display = "none";
     countResult.textContent = "An error occurred.";
@@ -214,7 +213,7 @@ const sortDirections = {
 function setSortArrow(element, direction) {
   if (element) {
     const originalText = element.getAttribute("data-original-text");
-    if(direction === 0) {
+    if (direction === 0) {
       element.textContent = `${originalText} ▲ ▼`; // Display both ▲ and ▼
     } else if (direction === 1) {
       element.textContent = `${originalText} ▲`; // Up arrow
@@ -231,7 +230,7 @@ function sortTable(column) {
 
   rows.sort((a, b) => {
     const aValue = a.cells[column].textContent;
-    console.log(aValue)
+    console.log(aValue);
     const bValue = b.cells[column].textContent;
 
     // Determine the sorting order based on the column and direction
