@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>USGS Earthquake Count</title>
+    <title>Quake Finder</title>
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Pangolin&display=swap"
@@ -10,7 +10,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="images/favicon.png" />
-    <script src="scriptStyle.js"></script>
   </head>
   <body>
     <header>
@@ -20,7 +19,8 @@
       </div>
     </header>
     <main>
-      <hr>
+      <hr class="divider">
+      <button type="button" id="new-search-button">New Search</button>
       <div id="form-container">
         <form id="earthquakeForm">
           <label for="city">City:</label>
@@ -48,10 +48,10 @@
             class="slider"
             id="radius"
           />
-          <button type="submit">Get Count</button>
+          <button type="submit" id="submit-button">Get Count</button>
         </form>
       </div>
-      <hr>
+      <hr class="divider">
       <div id="result-container">
         <p id="countResult"></p>
         <div id="tableElement"></div>
@@ -74,6 +74,7 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas soluta sint doloribus facilis labore quas nesciunt, autem molestias ab illo neque, reprehenderit accusantium minima? Nisi doloribus numquam voluptas repellat quo.</p>
         </article>
     </div>
+    <script src="scriptStyle.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

@@ -166,6 +166,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
     table.id = "earthquakeTable";
+    collapseForm();
     tableElement.appendChild(table);
     tableCreated = true;
 
@@ -247,6 +248,7 @@ function sortTable(column) {
   });
 }
 
+
 // Display a message based on the total number of earthquakes found within a given radius of a city
 function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   if (totalEarthquakes > 0) {
@@ -260,3 +262,4 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
     `;
   }
 }
+
