@@ -155,7 +155,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
 
     // Display the total number of earthquakes
     countResult.innerHTML = `
-      <p>Total Earthquakes: ${totalEarthquakes} </p>
+      <p> ${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
     `;
 
     // If a table has been previously created, remove it
