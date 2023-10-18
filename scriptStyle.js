@@ -42,7 +42,15 @@ modals.forEach((modal) => {
 // Hide form
 const collapsible = document.getElementById("form-container");
 const existingTable = document.getElementById("earthquakeTable");
+const dividers = document.querySelectorAll(".divider");
 
 function collapseForm() {
-  collapsible.remove();
+  collapsible.style.height = "20px";
+  collapsible.style.margin = "0";
+
+  setTimeout(function () {
+    collapsible.style.opacity = "0";
+  }, 1900);
 }
+
+collapseForm();

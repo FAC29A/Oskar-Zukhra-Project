@@ -58,11 +58,14 @@ h1 {
 
 /* Form */
 #form-container {
+  height: 350px;
   min-width: 200px;
   margin-top: 2rem;
   margin-bottom: 2rem;
   margin-left: auto;
   margin-right: auto;
+  transition: height 2s ease-in-out;
+  overflow: hidden;
 }
 
 form {
