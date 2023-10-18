@@ -6,16 +6,13 @@ let tableCreated = false;
 
 // Function to fetch data from a given URL and return it as JSON
 async function fetchData(url) {
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Error fetching data.");
-    }
-  } catch (error) {
-    throw error;
+  const response = await fetch(url);
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Error("Oops, there was a problem fetching the data. Please check your connection and try again.");
   }
+
 }
 
 // Function to fetch latitude and longitude based on the city
@@ -48,21 +45,23 @@ function generateTable(data) {
   const table = document.createElement("table");
   const headers = ["#", "Place", "Magnitude", "Date"];
 
-  // Create table headers
-  const headerRow = document.createElement("tr");
-  headers.forEach((headerText, index) => {
-    const header = document.createElement("th");
-    header.textContent = headerText;
-    // Add IDs to the "Magnitude" and "Date" headers
-    if (index === 2) {
-      header.id = "magnitudeHeader";
-    } else if (index === 3) {
-      header.id = "dateHeader";
-    }
+  // Check if there is data to display
+  if (data.length > 0) {
 
-    headerRow.appendChild(header);
-  });
-  table.appendChild(headerRow);
+    // Create table headers
+    const headerRow = document.createElement("tr");
+    headers.forEach((headerText, index) => {
+      const header = document.createElement("th");
+      header.textContent = headerText;
+      // Add ID to the "Magnitude" header
+      if (index === 2) {
+        header.id = "magnitudeHeader";
+      }
+
+      headerRow.appendChild(header);
+    });
+    table.appendChild(headerRow);
+  }
 
   // Create table rows with earthquake information
   data.forEach((earthquake, index) => {
@@ -152,9 +151,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     console.log(earthquakeInfo);
 
     // Display the total number of earthquakes
-    countResult.innerHTML = `
-      <p>Total Earthquakes: ${totalEarthquakes} </p>
-    `;
+    displayEarthquakeMessage(totalEarthquakes, radius, city);
 
     // If a table has been previously created, remove it
     if (tableCreated) {
@@ -173,40 +170,38 @@ earthquakeForm.addEventListener("submit", async function (e) {
     tableElement.appendChild(table);
     tableCreated = true;
 
-    // Attach event listeners to the specific headers for sorting
-    const magnitudeHeader = document.getElementById("magnitudeHeader");
-    const dateHeader = document.getElementById("dateHeader");
+    // Attach event listeners and setting sorting arrows to the Magnitude header.
+    attachSortingEvents()
 
+  } catch (error) {
+    loader.style.display = "none";
+    countResult.textContent = "Sorry, we encountered an issue while processing your request. Please try again later.";
+  }
+});
+
+// Attach event listeners and setting sorting arrows to the Magnitude header.
+function attachSortingEvents() {
+  const magnitudeHeader = document.getElementById("magnitudeHeader");
+
+  //Avoid errors when the table is empty and the header row is not displayed
+  if (magnitudeHeader) {
     // Store the original text in a data attribute
     magnitudeHeader.setAttribute("data-original-text", "Magnitude");
-    dateHeader.setAttribute("data-original-text", "Date");
 
     // Display both ascending (▲) and descending (▼) sorting symbols
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
-    setSortArrow(dateHeader, 0); // 0 represents no sorting direction
 
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
       setSortArrow(magnitudeHeader, sortDirections[2]);
     });
-
-    dateHeader.addEventListener("click", () => {
-      sortTable(3); // Sort by Date
-      setSortArrow(dateHeader, sortDirections[3]);
-    });
-  } catch (error) {
-    loader.style.display = "none";
-    countResult.textContent = "An error occurred.";
-    console.error("Error:", error);
   }
-});
+}
 
 // Keep track of sorting direction for each column
 const sortDirections = {
-  0: 1, // Default for column 0 ("#")
-  2: 1, // Default for column 2 ("Magnitude")
-  3: 1, // Default for column 3 ("Date")
+  2: 1, // Default for column 2 ("Magnitude"); 1 represents ascending order
 };
 
 // Function to set the content for the sorting arrows
@@ -230,24 +225,14 @@ function sortTable(column) {
 
   rows.sort((a, b) => {
     const aValue = a.cells[column].textContent;
-    console.log(aValue);
     const bValue = b.cells[column].textContent;
 
     // Determine the sorting order based on the column and direction
     const order = sortDirections[column];
 
-    if (column === 0) {
-      // For the "#" column, compare as numbers
-      return (Number(aValue) - Number(bValue)) * order;
-    } else if (column === 3) {
-      // For the "Date" column, parse and compare as dates
-      const aDate = new Date(aValue);
-      const bDate = new Date(bValue);
-      return (aDate - bDate) * order;
-    } else {
-      // For other columns, compare as strings
-      return aValue.localeCompare(bValue) * order;
-    }
+    // Compare as strings
+    return aValue.localeCompare(bValue) * order;
+
   });
 
   // Toggle the sorting direction for the current column
@@ -262,3 +247,19 @@ function sortTable(column) {
     table.appendChild(row);
   });
 }
+
+
+// Display a message based on the total number of earthquakes found within a given radius of a city
+function displayEarthquakeMessage(totalEarthquakes, radius, city) {
+  if (totalEarthquakes > 0) {
+    countResult.innerHTML = `
+      <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
+    `;
+  } else {
+    countResult.innerHTML = `
+      <p>No earthquakes were found within ${radius}km of ${city}.</p>
+      <p>Try increasing the search radius or changing the time period.</p>
+    `;
+  }
+}
+
