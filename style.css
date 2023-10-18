@@ -29,6 +29,7 @@ body {
 hr {
   width: calc(100vw - 50%);
   min-width: 300px;
+  border: 1px solid var(--font-dark);
 }
 
 /* Header */
@@ -58,7 +59,8 @@ h1 {
 
 /* Form */
 #form-container {
-  height: 350px;
+  flex-direction: column;
+  height: 314px;
   min-width: 200px;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -135,7 +137,6 @@ button {
   font-family: var(--font-main);
   font-weight: bold;
   font-size: 1rem;
-  margin-top: 1rem;
   padding: 0.5rem;
   height: 2rem;
   border-radius: 5px;
@@ -161,8 +162,21 @@ button:active {
   box-shadow: 0 0 5px var(--font-dark);
 }
 
-/* Result and Table */
+#submit-button {
+  margin-top: 1rem;
+}
 
+#new-search-button {
+  display: none;
+  width: fit-content;
+  transition: display 1s;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Result and Table */
 #result-container {
   margin-top: 4rem;
   margin-bottom: 2rem;

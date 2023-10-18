@@ -42,15 +42,24 @@ modals.forEach((modal) => {
 // Hide form
 const collapsible = document.getElementById("form-container");
 const existingTable = document.getElementById("earthquakeTable");
-const dividers = document.querySelectorAll(".divider");
+const newSearch = document.getElementById("new-search-button");
+const dividers = document.getElementsByClassName("divider");
 
 function collapseForm() {
-  collapsible.style.height = "20px";
-  collapsible.style.margin = "0";
+  collapsible.style.height = "0px";
 
   setTimeout(function () {
     collapsible.style.opacity = "0";
+    newSearch.style.display = "block";
+    collapsible.style.margin = "0";
   }, 1900);
 }
 
-collapseForm();
+function showForm() {
+  collapsible.style.height = "350px";
+  collapsible.style.opacity = "";
+  newSearch.style.display = "none";
+  collapsible.style.margin = "";
+}
+
+newSearch.addEventListener("click", showForm);
