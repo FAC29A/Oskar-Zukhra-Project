@@ -95,6 +95,14 @@ function generateTable(data) {
         // Check if the value is null, if so, display "data not available"
         cell.textContent = value !== null ? value : "data not available";
       }
+
+      // Add a click event to "Place" cells to show the map
+      if (attribute === "place") {
+        cell.style.cursor = "pointer";
+        cell.addEventListener("click", () => showMapForPlace(earthquake.coordinates));
+        console.log("place was clicked")
+      }
+
       row.appendChild(cell);
     });
 
@@ -263,3 +271,32 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   }
 }
 
+// Function to show the map for a specific place
+function showMapForPlace(coordinates) {
+  console.log("map create")
+  const mapContainer = document.getElementById("map-container");
+
+  const map = L.map('map').setView([coordinates.latitude, coordinates.longitude], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  const marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
+  marker.bindPopup("CHANGE ME").openPopup();
+
+  mapContainer.style.visibility = 'visible';
+  map.invalidateSize();
+}
+
+const mapContainer = document.getElementById('map-container');
+mapContainer.addEventListener("click", closeMap);
+
+function closeMap() {
+  mapContainer.style.visibility = 'hidden';
+  console.log('map close')
+    // Check if there is an existing map instance
+   if (mapContainer.hasChildNodes()) {
+    mapContainer.removeChild(mapContainer.firstChild); // Remove the existing map
+  }
+}
