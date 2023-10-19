@@ -15,29 +15,50 @@
 
 body {
   font-family: var(--font-main);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 200px 1fr 100px;
+  align-items: start;
   background-color: var(--background);
+  padding: 10px;
   box-sizing: border-box;
   height: 100vh;
-  margin-top: 0;
-  margin-bottom: 0;
+  width: 100%;
+  margin: 0;
   color: var(--font-dark);
 }
 
+main {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+}
+
+#body-content {
+  width: 100%;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
 hr {
-  width: calc(100vw - 50%);
-  min-width: 300px;
+  /* width: 100%; */
   border: 1px solid var(--font-dark);
   margin-top: 0;
   margin-bottom: 0;
 }
 
 /* Header */
+header {
+  align-self: center;
+}
+
 #header-container {
   display: flex;
   flex-direction: column;
+  grid-column: 1;
+  grid-row: 1;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -49,6 +70,7 @@ h1 {
   font-size: 3rem;
   letter-spacing: 0.2rem;
   margin-bottom: 0;
+  margin-top: 0;
 }
 
 #header-container p {
@@ -61,12 +83,8 @@ h1 {
 
 /* Form */
 #form-container {
-  flex-direction: column;
   height: 314px;
-  width: 400px;
   padding: 2rem;
-  margin-left: auto;
-  margin-right: auto;
   transition: height 2s ease-in-out;
   overflow: hidden;
 }
@@ -142,11 +160,13 @@ button {
   height: 2rem;
   border-radius: 5px;
   border: var(--font-dark) solid 2px;
-  background-image: linear-gradient(to right,
-      var(--highlight),
-      var(--highlight) 50%,
-      transparent,
-      transparent 50%);
+  background-image: linear-gradient(
+    to right,
+    var(--highlight),
+    var(--highlight) 50%,
+    transparent,
+    transparent 50%
+  );
   background-size: 200% 100%;
   background-position: 100% 0;
   transition: background-position 0.3s ease;
@@ -177,21 +197,29 @@ button:active {
 
 /* Result and Table */
 #result-container {
-  margin-top: 4rem;
+  display: none;
+  margin-top: 2rem;
   margin-bottom: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #countResult {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+}
+
+#tableElement {
+  width: 100%;
 }
 
 #earthquakeTable {
-  min-width: 50%;
-  max-width: 100%;
   border-collapse: collapse;
-  border-radius: 5px;
-  overflow: hidden;
+  width: 100%;
+  overflow-x: hidden;
+  border: 2px solid var(--highlight);
+  color: var(--font-dark);
   margin-left: auto;
   margin-right: auto;
 }
@@ -199,11 +227,14 @@ button:active {
 th {
   background-color: var(--highlight);
   text-align: left;
-  padding: 0.5rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
+  border: 2px solid var(--highlight);
 }
 
 td {
-  padding: 0.5rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
   border: 2px solid var(--highlight);
 }
 
@@ -219,15 +250,18 @@ tr:hover {
 .modal {
   position: absolute;
   box-sizing: border-box;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  top: 170px;
+  margin-left: auto;
+  margin-right: auto;
   display: none;
-  height: 80%;
-  max-width: 900px;
+  border-radius: 5px;
+  max-width: 960px;
   background-color: var(--highlight);
   padding: 2rem;
+  overflow: auto;
 }
 
 .close-button {
@@ -260,8 +294,8 @@ tr:hover {
 
 #help-button {
   position: absolute;
-  top: 22%;
-  left: 80%;
+  top: 3.5rem;
+  right: 3%;
   height: 40px;
   width: 40px;
   background-color: var(--highlight);
@@ -305,6 +339,8 @@ tr:hover {
 /* Footer */
 footer {
   position: relative;
+  grid-column: 1;
+  grid-row: 3;
   bottom: 0;
   width: 100%;
   padding: 1rem 0;
@@ -336,7 +372,6 @@ footer {
     transform: rotate(360deg);
   }
 }
-
 
 /* Initially hide the map */
 #map-container {
