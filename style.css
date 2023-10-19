@@ -260,7 +260,7 @@ tr:hover {
   border-radius: 5px;
   max-width: 960px;
   background-color: var(--highlight);
-  padding: 2rem;
+  padding: 1rem;
   overflow: auto;
 }
 
@@ -334,6 +334,21 @@ tr:hover {
   100% {
     transform: translateY(0);
   }
+}
+
+#richter-table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: hidden;
+  border: 2px solid var(--font-dark);
+  color: var(--font-dark);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#richter-table th,
+td {
+  border: 2px solid var(--font-dark);
 }
 
 /* Footer */
