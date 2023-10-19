@@ -101,12 +101,14 @@ function generateTable(data) {
       // Add a class "clickablePlace" to "Place" cells
       if (attribute === "place") {
         cell.classList.add("clickablePlace");
+        cell.setAttribute("index", index)
         // Add data attributes for latitude and longitude
         cell.setAttribute("data-lat", earthquake.coordinates.latitude);
         cell.setAttribute("data-lon", earthquake.coordinates.longitude);
       }
 
       row.appendChild(cell);
+      
     });
 
     table.appendChild(row);
@@ -159,7 +161,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
       };
       earthquakeInfo.push(info);
     });
-    console.log(earthquakeInfo);
+    console.log("array",earthquakeInfo);
 
     // Display the total number of earthquakes
     displayEarthquakeMessage(totalEarthquakes, radius, city);
@@ -283,24 +285,16 @@ function attachClickEventToPlaceCells() {
     cell.style.cursor = "pointer";
     cell.addEventListener("click", () => {
       // Extract the latitude and longitude from data attributes
-      const latitude = cell.getAttribute("data-lat");
-      const longitude = cell.getAttribute("data-lon");
-
-      if (latitude && longitude) {
-        // Ensure that both latitude and longitude are available
-        showMapForPlace({ latitude, longitude });
-      } else {
-        // Handle the case where the data attributes are missing or invalid
-        console.error("Latitude and/or longitude data is missing or invalid.");
-      }
+      let earthquake = earthquakeInfo[cell.getAttribute("index")]
+      showMapForPlace(earthquake);
     });
   });
 }
 
 // Function to show the map for a specific place
-function showMapForPlace(coordinates) {
+function showMapForPlace(earthquake) {
   const mapContainer = document.getElementById("map-container");
-  console.log("map content created");
+  let coordinates = earthquake.coordinates
   map = L.map("map").setView(
     [coordinates.latitude, coordinates.longitude],
     13
@@ -314,12 +308,9 @@ function showMapForPlace(coordinates) {
   marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
   marker
     .bindPopup(
-      `Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`
+      `Place: ${earthquake.place} <br>Magnitude: ${earthquake.magnitude}`
     )
     .openPopup();
-  console.log(
-    `Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`
-  );
 
   mapContainer.style.visibility = "visible";
   map.invalidateSize();
