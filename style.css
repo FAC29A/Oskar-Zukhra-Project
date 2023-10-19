@@ -142,11 +142,13 @@ button {
   height: 2rem;
   border-radius: 5px;
   border: var(--font-dark) solid 2px;
-  background-image: linear-gradient(to right,
-      var(--highlight),
-      var(--highlight) 50%,
-      transparent,
-      transparent 50%);
+  background-image: linear-gradient(
+    to right,
+    var(--highlight),
+    var(--highlight) 50%,
+    transparent,
+    transparent 50%
+  );
   background-size: 200% 100%;
   background-position: 100% 0;
   transition: background-position 0.3s ease;
@@ -177,29 +179,31 @@ button:active {
 
 /* Result and Table */
 #result-container {
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
 #countResult {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 #earthquakeTable {
   min-width: 50%;
   max-width: 100%;
   border-collapse: collapse;
-  border-radius: 5px;
   overflow: hidden;
   margin-left: auto;
   margin-right: auto;
+  border: 2px solid var(--highlight);
+  color: var(--font-dark);
 }
 
 th {
   background-color: var(--highlight);
   text-align: left;
   padding: 0.5rem;
+  border: 2px solid var(--highlight);
 }
 
 td {
@@ -336,7 +340,6 @@ footer {
     transform: rotate(360deg);
   }
 }
-
 
 /* Initially hide the map */
 #map-container {

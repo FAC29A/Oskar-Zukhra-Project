@@ -177,10 +177,11 @@ earthquakeForm.addEventListener("submit", async function (e) {
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
     table.id = "earthquakeTable";
+    collapseForm();
     tableElement.appendChild(table);
     tableCreated = true;
 
-    attachClickEventToPlaceCells()
+    attachClickEventToPlaceCells();
 
     // Attach event listeners and setting sorting arrows to the Magnitude header.
     attachSortingEvents();
@@ -265,7 +266,6 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
     countResult.innerHTML = `
       <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
     `;
-    collapseForm();
   } else {
     countResult.innerHTML = `
       <p>No earthquakes were found within ${radius}km of ${city}.</p>
@@ -296,16 +296,20 @@ function attachClickEventToPlaceCells() {
 
 // Function to show the map for a specific place
 function showMapForPlace(coordinates) {
-  const mapContainer = document.getElementById('map-container');
+  const mapContainer = document.getElementById("map-container");
   console.log("map content created");
   // Check if the map is already created
   if (!map) {
     console.log("it is a brand new map");
     // Create the map if it doesn't exist
-    map = L.map('map').setView([coordinates.latitude, coordinates.longitude], 13);
+    map = L.map("map").setView(
+      [coordinates.latitude, coordinates.longitude],
+      13
+    );
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
   } else {
     console.log("not a brand new map");
@@ -318,17 +322,23 @@ function showMapForPlace(coordinates) {
   }
 
   marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
-  marker.bindPopup(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`).openPopup();
-  console.log(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`);
+  marker
+    .bindPopup(
+      `Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`
+    )
+    .openPopup();
+  console.log(
+    `Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`
+  );
 
-  mapContainer.style.visibility = 'visible';
+  mapContainer.style.visibility = "visible";
   map.invalidateSize();
 }
 
-const mapContainer = document.getElementById('map-container');
+const mapContainer = document.getElementById("map-container");
 mapContainer.addEventListener("click", closeMap);
 
 function closeMap() {
-  mapContainer.style.visibility = 'hidden';
-  console.log('map close')
+  mapContainer.style.visibility = "hidden";
+  console.log("map close");
 }
