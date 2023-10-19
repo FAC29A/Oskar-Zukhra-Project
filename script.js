@@ -317,7 +317,9 @@ function showMapForPlace(earthquake) {
   map.invalidateSize();
 }
 
-mapContainer.addEventListener("click", closeMap);
+document.getElementById("close-button").addEventListener("click", function () {
+  closeMap();
+});
 
 function closeMap() {
   mapContainer.style.visibility = 'hidden';
