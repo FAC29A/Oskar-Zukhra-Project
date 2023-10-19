@@ -30,6 +30,8 @@ hr {
   width: calc(100vw - 50%);
   min-width: 300px;
   border: 1px solid var(--font-dark);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Header */
@@ -61,9 +63,8 @@ h1 {
 #form-container {
   flex-direction: column;
   height: 314px;
-  min-width: 200px;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  width: 400px;
+  padding: 2rem;
   margin-left: auto;
   margin-right: auto;
   transition: height 2s ease-in-out;

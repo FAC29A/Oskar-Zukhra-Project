@@ -51,7 +51,7 @@ function collapseForm() {
   setTimeout(function () {
     collapsible.style.opacity = "0";
     newSearch.style.display = "block";
-    collapsible.style.margin = "0";
+    collapsible.style.padding = "0";
   }, 1900);
 }
 
@@ -59,7 +59,7 @@ function showForm() {
   collapsible.style.height = "350px";
   collapsible.style.opacity = "";
   newSearch.style.display = "none";
-  collapsible.style.margin = "";
+  collapsible.style.padding = "";
 }
 
 newSearch.addEventListener("click", showForm);
