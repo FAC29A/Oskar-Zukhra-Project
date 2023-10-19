@@ -17,7 +17,7 @@ body {
   font-family: var(--font-main);
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 200px 1fr 100px;
+  grid-template-rows: 200px 1fr 50px;
   align-items: start;
   background-color: var(--background);
   padding: 10px;
