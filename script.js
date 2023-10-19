@@ -177,7 +177,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
     table.id = "earthquakeTable";
-    collapseForm();
     tableElement.appendChild(table);
     tableCreated = true;
 
@@ -266,6 +265,7 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
     countResult.innerHTML = `
       <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
     `;
+    collapseForm();
   } else {
     countResult.innerHTML = `
       <p>No earthquakes were found within ${radius}km of ${city}.</p>
