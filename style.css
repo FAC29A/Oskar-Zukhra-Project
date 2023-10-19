@@ -250,15 +250,18 @@ tr:hover {
 .modal {
   position: absolute;
   box-sizing: border-box;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  top: 170px;
+  margin-left: auto;
+  margin-right: auto;
   display: none;
-  height: 80%;
+  border-radius: 5px;
   max-width: 960px;
   background-color: var(--highlight);
   padding: 2rem;
+  overflow: auto;
 }
 
 .close-button {
