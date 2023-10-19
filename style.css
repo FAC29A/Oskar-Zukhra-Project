@@ -18,17 +18,29 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   background-color: var(--background);
   box-sizing: border-box;
   height: 100vh;
+  width: 100%;
   margin-top: 0;
   margin-bottom: 0;
   color: var(--font-dark);
 }
 
+main {
+  width: 100%;
+}
+
+#body-content {
+  width: 100%;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 hr {
-  width: calc(100vw - 50%);
-  min-width: 300px;
+  width: 100%;
   border: 1px solid var(--font-dark);
   margin-top: 0;
   margin-bottom: 0;
@@ -63,10 +75,7 @@ h1 {
 #form-container {
   flex-direction: column;
   height: 314px;
-  width: 400px;
   padding: 2rem;
-  margin-left: auto;
-  margin-right: auto;
   transition: height 2s ease-in-out;
   overflow: hidden;
 }
@@ -181,6 +190,10 @@ button:active {
 #result-container {
   margin-top: 2rem;
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #countResult {
@@ -188,15 +201,18 @@ button:active {
   font-size: 1.2rem;
 }
 
+#tableElement {
+  width: 100%;
+}
+
 #earthquakeTable {
-  min-width: 50%;
-  max-width: 100%;
   border-collapse: collapse;
-  overflow: hidden;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  overflow-x: hidden;
   border: 2px solid var(--highlight);
   color: var(--font-dark);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 th {
