@@ -301,28 +301,15 @@ function attachClickEventToPlaceCells() {
 function showMapForPlace(coordinates) {
   const mapContainer = document.getElementById("map-container");
   console.log("map content created");
-  // Check if the map is already created
-  if (!map) {
-    console.log("it is a brand new map");
-    // Create the map if it doesn't exist
-    map = L.map("map").setView(
-      [coordinates.latitude, coordinates.longitude],
-      13
-    );
+  map = L.map("map").setView(
+    [coordinates.latitude, coordinates.longitude],
+    13
+  );
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-  } else {
-    console.log("not a brand new map");
-    // If the map already exists, just set a new view
-    map.setView([coordinates.latitude, coordinates.longitude], 13);
-  }
-
-  if (marker) {
-    map.removeLayer(marker);
-  }
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
 
   marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
   marker
@@ -342,6 +329,10 @@ const mapContainer = document.getElementById("map-container");
 mapContainer.addEventListener("click", closeMap);
 
 function closeMap() {
-  mapContainer.style.visibility = "hidden";
-  console.log("map close");
+  mapContainer.style.visibility = 'hidden';
+  console.log('map close');
+  map.remove();
+  console.log('map removed')
+  map.removeLayer(marker);
+  console.log('marker removed')
 }
