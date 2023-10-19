@@ -3,6 +3,7 @@ const countResult = document.getElementById("countResult");
 const earthquakeInfo = [];
 const loader = document.getElementById("loader");
 let tableCreated = false;
+const mapContainer = document.getElementById("map-container");
 let map;
 let marker;
 
@@ -316,7 +317,6 @@ function showMapForPlace(earthquake) {
   map.invalidateSize();
 }
 
-const mapContainer = document.getElementById("map-container");
 mapContainer.addEventListener("click", closeMap);
 
 function closeMap() {
