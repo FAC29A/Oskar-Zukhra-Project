@@ -4,6 +4,7 @@ const earthquakeInfo = [];
 const loader = document.getElementById("loader");
 let tableCreated = false;
 let map;
+let marker;
 
 // Function to fetch data from a given URL and return it as JSON
 async function fetchData(url) {
@@ -298,10 +299,10 @@ function attachClickEventToPlaceCells() {
 // Function to show the map for a specific place
 function showMapForPlace(coordinates) {
   const mapContainer = document.getElementById('map-container');
-  console.log("mapcontent created")
+  console.log("map content created");
   // Check if the map is already created
   if (!map) {
-    console.log("it is brand new map")
+    console.log("it is a brand new map");
     // Create the map if it doesn't exist
     map = L.map('map').setView([coordinates.latitude, coordinates.longitude], 13);
 
@@ -309,14 +310,18 @@ function showMapForPlace(coordinates) {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
   } else {
-    console.log("not brand  new map")
+    console.log("not a brand new map");
     // If the map already exists, just set a new view
     map.setView([coordinates.latitude, coordinates.longitude], 13);
   }
 
-  const marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
+  if (marker) {
+    map.removeLayer(marker);
+  }
+
+  marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
   marker.bindPopup(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`).openPopup();
-  console.log(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`)
+  console.log(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`);
 
   mapContainer.style.visibility = 'visible';
   map.invalidateSize();
