@@ -141,13 +141,11 @@ button {
   height: 2rem;
   border-radius: 5px;
   border: var(--font-dark) solid 2px;
-  background-image: linear-gradient(
-    to right,
-    var(--highlight),
-    var(--highlight) 50%,
-    transparent,
-    transparent 50%
-  );
+  background-image: linear-gradient(to right,
+      var(--highlight),
+      var(--highlight) 50%,
+      transparent,
+      transparent 50%);
   background-size: 200% 100%;
   background-position: 100% 0;
   transition: background-position 0.3s ease;
@@ -293,9 +291,11 @@ tr:hover {
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
+
   100% {
     transform: translateY(0);
   }
@@ -330,7 +330,42 @@ footer {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
+}
+
+
+/* Initially hide the map */
+#map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  /* Ensure the map is on top of other elements */
+}
+
+#map {
+  position: reletive;
+  width: 80%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Close button styles */
+#close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #999;
+  padding: 5px;
 }
