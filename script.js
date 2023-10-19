@@ -3,6 +3,7 @@ const countResult = document.getElementById("countResult");
 const earthquakeInfo = [];
 const loader = document.getElementById("loader");
 let tableCreated = false;
+let map;
 
 // Function to fetch data from a given URL and return it as JSON
 async function fetchData(url) {
@@ -96,11 +97,12 @@ function generateTable(data) {
         cell.textContent = value !== null ? value : "data not available";
       }
 
-      // Add a click event to "Place" cells to show the map
+      // Add a class "clickablePlace" to "Place" cells
       if (attribute === "place") {
-        cell.style.cursor = "pointer";
-        cell.addEventListener("click", () => showMapForPlace(earthquake.coordinates));
-        console.log("place was clicked")
+        cell.classList.add("clickablePlace");
+        // Add data attributes for latitude and longitude
+        cell.setAttribute("data-lat", earthquake.coordinates.latitude);
+        cell.setAttribute("data-lon", earthquake.coordinates.longitude);
       }
 
       row.appendChild(cell);
@@ -177,6 +179,8 @@ earthquakeForm.addEventListener("submit", async function (e) {
     collapseForm();
     tableElement.appendChild(table);
     tableCreated = true;
+
+    attachClickEventToPlaceCells()
 
     // Attach event listeners and setting sorting arrows to the Magnitude header.
     attachSortingEvents()
@@ -271,19 +275,48 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   }
 }
 
+function attachClickEventToPlaceCells() {
+  const clickablePlaceCells = document.querySelectorAll(".clickablePlace");
+  clickablePlaceCells.forEach((cell) => {
+    cell.style.cursor = "pointer";
+    cell.addEventListener("click", () => {
+      // Extract the latitude and longitude from data attributes
+      const latitude = cell.getAttribute("data-lat");
+      const longitude = cell.getAttribute("data-lon");
+
+      if (latitude && longitude) {
+        // Ensure that both latitude and longitude are available
+        showMapForPlace({ latitude, longitude });
+      } else {
+        // Handle the case where the data attributes are missing or invalid
+        console.error("Latitude and/or longitude data is missing or invalid.");
+      }
+    });
+  });
+}
+
 // Function to show the map for a specific place
 function showMapForPlace(coordinates) {
-  console.log("map create")
-  const mapContainer = document.getElementById("map-container");
+  const mapContainer = document.getElementById('map-container');
+  console.log("mapcontent created")
+  // Check if the map is already created
+  if (!map) {
+    console.log("it is brand new map")
+    // Create the map if it doesn't exist
+    map = L.map('map').setView([coordinates.latitude, coordinates.longitude], 13);
 
-  const map = L.map('map').setView([coordinates.latitude, coordinates.longitude], 13);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+  } else {
+    console.log("not brand  new map")
+    // If the map already exists, just set a new view
+    map.setView([coordinates.latitude, coordinates.longitude], 13);
+  }
 
   const marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
-  marker.bindPopup("CHANGE ME").openPopup();
+  marker.bindPopup(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`).openPopup();
+  console.log(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`)
 
   mapContainer.style.visibility = 'visible';
   map.invalidateSize();
@@ -295,8 +328,4 @@ mapContainer.addEventListener("click", closeMap);
 function closeMap() {
   mapContainer.style.visibility = 'hidden';
   console.log('map close')
-    // Check if there is an existing map instance
-   if (mapContainer.hasChildNodes()) {
-    mapContainer.removeChild(mapContainer.firstChild); // Remove the existing map
-  }
 }
