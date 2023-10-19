@@ -261,6 +261,9 @@ function sortTable(column) {
 
 // Display a message based on the total number of earthquakes found within a given radius of a city
 function displayEarthquakeMessage(totalEarthquakes, radius, city) {
+  const resultContainer = document.getElementById("result-container");
+  resultContainer.style.display = "flex";
+
   if (totalEarthquakes > 0) {
     countResult.innerHTML = `
       <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
