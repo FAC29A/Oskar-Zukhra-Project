@@ -10,9 +10,10 @@ async function fetchData(url) {
   if (response.ok) {
     return await response.json();
   } else {
-    throw new Error("Oops, there was a problem fetching the data. Please check your connection and try again.");
+    throw new Error(
+      "Oops, there was a problem fetching the data. Please check your connection and try again."
+    );
   }
-
 }
 
 // Function to fetch latitude and longitude based on the city
@@ -47,7 +48,6 @@ function generateTable(data) {
 
   // Check if there is data to display
   if (data.length > 0) {
-
     // Create table headers
     const headerRow = document.createElement("tr");
     headers.forEach((headerText, index) => {
@@ -166,16 +166,15 @@ earthquakeForm.addEventListener("submit", async function (e) {
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
     table.id = "earthquakeTable";
-    collapseForm();
     tableElement.appendChild(table);
     tableCreated = true;
 
     // Attach event listeners and setting sorting arrows to the Magnitude header.
-    attachSortingEvents()
-
+    attachSortingEvents();
   } catch (error) {
     loader.style.display = "none";
-    countResult.textContent = "Sorry, we encountered an issue while processing your request. Please try again later.";
+    countResult.textContent =
+      "Sorry, we encountered an issue while processing your request. Please try again later.";
   }
 });
 
@@ -232,7 +231,6 @@ function sortTable(column) {
 
     // Compare as strings
     return aValue.localeCompare(bValue) * order;
-
   });
 
   // Toggle the sorting direction for the current column
@@ -248,13 +246,13 @@ function sortTable(column) {
   });
 }
 
-
 // Display a message based on the total number of earthquakes found within a given radius of a city
 function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   if (totalEarthquakes > 0) {
     countResult.innerHTML = `
       <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
     `;
+    collapseForm();
   } else {
     countResult.innerHTML = `
       <p>No earthquakes were found within ${radius}km of ${city}.</p>
@@ -262,4 +260,3 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
     `;
   }
 }
-
