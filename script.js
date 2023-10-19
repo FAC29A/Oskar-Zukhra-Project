@@ -3,6 +3,8 @@ const countResult = document.getElementById("countResult");
 const earthquakeInfo = [];
 const loader = document.getElementById("loader");
 let tableCreated = false;
+let map;
+let marker;
 
 // Function to fetch data from a given URL and return it as JSON
 async function fetchData(url) {
@@ -95,6 +97,15 @@ function generateTable(data) {
         // Check if the value is null, if so, display "data not available"
         cell.textContent = value !== null ? value : "data not available";
       }
+
+      // Add a class "clickablePlace" to "Place" cells
+      if (attribute === "place") {
+        cell.classList.add("clickablePlace");
+        // Add data attributes for latitude and longitude
+        cell.setAttribute("data-lat", earthquake.coordinates.latitude);
+        cell.setAttribute("data-lon", earthquake.coordinates.longitude);
+      }
+
       row.appendChild(cell);
     });
 
@@ -168,6 +179,8 @@ earthquakeForm.addEventListener("submit", async function (e) {
     table.id = "earthquakeTable";
     tableElement.appendChild(table);
     tableCreated = true;
+
+    attachClickEventToPlaceCells()
 
     // Attach event listeners and setting sorting arrows to the Magnitude header.
     attachSortingEvents();
@@ -259,4 +272,63 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
       <p>Try increasing the search radius or changing the time period.</p>
     `;
   }
+}
+
+function attachClickEventToPlaceCells() {
+  const clickablePlaceCells = document.querySelectorAll(".clickablePlace");
+  clickablePlaceCells.forEach((cell) => {
+    cell.style.cursor = "pointer";
+    cell.addEventListener("click", () => {
+      // Extract the latitude and longitude from data attributes
+      const latitude = cell.getAttribute("data-lat");
+      const longitude = cell.getAttribute("data-lon");
+
+      if (latitude && longitude) {
+        // Ensure that both latitude and longitude are available
+        showMapForPlace({ latitude, longitude });
+      } else {
+        // Handle the case where the data attributes are missing or invalid
+        console.error("Latitude and/or longitude data is missing or invalid.");
+      }
+    });
+  });
+}
+
+// Function to show the map for a specific place
+function showMapForPlace(coordinates) {
+  const mapContainer = document.getElementById('map-container');
+  console.log("map content created");
+  // Check if the map is already created
+  if (!map) {
+    console.log("it is a brand new map");
+    // Create the map if it doesn't exist
+    map = L.map('map').setView([coordinates.latitude, coordinates.longitude], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+  } else {
+    console.log("not a brand new map");
+    // If the map already exists, just set a new view
+    map.setView([coordinates.latitude, coordinates.longitude], 13);
+  }
+
+  if (marker) {
+    map.removeLayer(marker);
+  }
+
+  marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
+  marker.bindPopup(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`).openPopup();
+  console.log(`Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`);
+
+  mapContainer.style.visibility = 'visible';
+  map.invalidateSize();
+}
+
+const mapContainer = document.getElementById('map-container');
+mapContainer.addEventListener("click", closeMap);
+
+function closeMap() {
+  mapContainer.style.visibility = 'hidden';
+  console.log('map close')
 }
