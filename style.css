@@ -246,7 +246,7 @@ tr:nth-child(even) {
   background-color: var(--container);
 }
 
-#earthquakeTabletr:hover {
+#earthquakeTable tr:hover {
   background-color: var(--font-bright);
 }
 
