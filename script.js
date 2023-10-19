@@ -3,6 +3,7 @@ const countResult = document.getElementById("countResult");
 const earthquakeInfo = [];
 const loader = document.getElementById("loader");
 let tableCreated = false;
+const mapContainer = document.getElementById("map-container");
 let map;
 let marker;
 
@@ -101,12 +102,14 @@ function generateTable(data) {
       // Add a class "clickablePlace" to "Place" cells
       if (attribute === "place") {
         cell.classList.add("clickablePlace");
+        cell.setAttribute("index", index)
         // Add data attributes for latitude and longitude
         cell.setAttribute("data-lat", earthquake.coordinates.latitude);
         cell.setAttribute("data-lon", earthquake.coordinates.longitude);
       }
 
       row.appendChild(cell);
+      
     });
 
     table.appendChild(row);
@@ -159,7 +162,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
       };
       earthquakeInfo.push(info);
     });
-    console.log(earthquakeInfo);
+    console.log("array",earthquakeInfo);
 
     // Display the total number of earthquakes
     displayEarthquakeMessage(totalEarthquakes, radius, city);
@@ -283,65 +286,44 @@ function attachClickEventToPlaceCells() {
     cell.style.cursor = "pointer";
     cell.addEventListener("click", () => {
       // Extract the latitude and longitude from data attributes
-      const latitude = cell.getAttribute("data-lat");
-      const longitude = cell.getAttribute("data-lon");
-
-      if (latitude && longitude) {
-        // Ensure that both latitude and longitude are available
-        showMapForPlace({ latitude, longitude });
-      } else {
-        // Handle the case where the data attributes are missing or invalid
-        console.error("Latitude and/or longitude data is missing or invalid.");
-      }
+      let earthquake = earthquakeInfo[cell.getAttribute("index")]
+      showMapForPlace(earthquake);
     });
   });
 }
 
 // Function to show the map for a specific place
-function showMapForPlace(coordinates) {
+function showMapForPlace(earthquake) {
   const mapContainer = document.getElementById("map-container");
-  console.log("map content created");
-  // Check if the map is already created
-  if (!map) {
-    console.log("it is a brand new map");
-    // Create the map if it doesn't exist
-    map = L.map("map").setView(
-      [coordinates.latitude, coordinates.longitude],
-      13
-    );
+  let coordinates = earthquake.coordinates
+  map = L.map("map").setView(
+    [coordinates.latitude, coordinates.longitude],
+    13
+  );
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-  } else {
-    console.log("not a brand new map");
-    // If the map already exists, just set a new view
-    map.setView([coordinates.latitude, coordinates.longitude], 13);
-  }
-
-  if (marker) {
-    map.removeLayer(marker);
-  }
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
 
   marker = L.marker([coordinates.latitude, coordinates.longitude]).addTo(map);
   marker
     .bindPopup(
-      `Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`
+      `Place: ${earthquake.place} <br>Magnitude: ${earthquake.magnitude}`
     )
     .openPopup();
-  console.log(
-    `Latitude: ${coordinates.latitude}<br>Longitude: ${coordinates.longitude}`
-  );
 
   mapContainer.style.visibility = "visible";
   map.invalidateSize();
 }
 
-const mapContainer = document.getElementById("map-container");
 mapContainer.addEventListener("click", closeMap);
 
 function closeMap() {
-  mapContainer.style.visibility = "hidden";
-  console.log("map close");
+  mapContainer.style.visibility = 'hidden';
+  console.log('map close');
+  map.remove();
+  console.log('map removed')
+  map.removeLayer(marker);
+  console.log('marker removed')
 }
