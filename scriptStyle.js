@@ -64,6 +64,22 @@ function showForm() {
 
 newSearch.addEventListener("click", showForm);
 
+
+// Generate random value for shake effect
+const root = document.documentElement;
+
+function applyRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  let random = Math.floor(Math.random() * (max - min + 1)) + min + "px";
+  root.style.setProperty("--random-int", random);
+  return random;
+}
+
+setInterval(function () {
+  applyRandom(-7, 7);
+}, 100);
+
 // Function to add an icon to a header cell
 function addIconToHeader(header, iconClass, iconColor, marginLeft) {
   const icon = document.createElement("i");
@@ -73,3 +89,4 @@ function addIconToHeader(header, iconClass, iconColor, marginLeft) {
 
   header.appendChild(icon);
 }
+

@@ -2,6 +2,7 @@ const earthquakeForm = document.getElementById("earthquakeForm");
 const countResult = document.getElementById("countResult");
 const earthquakeInfo = [];
 const loader = document.getElementById("loader");
+const form = document.getElementById("form-container");
 let tableCreated = false;
 const mapContainer = document.getElementById("map-container");
 let map;
@@ -125,6 +126,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
   const endYear = document.getElementById("endYear").value;
 
   loader.style.display = "block";
+  form.classList.add("loading");
 
   try {
     const result = await fetchGeoData(city);
@@ -174,6 +176,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     }
 
     loader.style.display = "none";
+    form.classList.remove("loading");
 
     // Generate and display the earthquake info table on the page
     const table = generateTable(earthquakeInfo);
@@ -287,6 +290,7 @@ function attachClickEventToPlaceRows() {
     row.addEventListener("click", () => {
       // Extract the latitude and longitude from data attributes
       let earthquake = earthquakeInfo[row.getAttribute("index")]
+
       showMapForPlace(earthquake);
     });
   });
@@ -295,11 +299,8 @@ function attachClickEventToPlaceRows() {
 // Function to show the map for a specific place
 function showMapForPlace(earthquake) {
   const mapContainer = document.getElementById("map-container");
-  let coordinates = earthquake.coordinates
-  map = L.map("map").setView(
-    [coordinates.latitude, coordinates.longitude],
-    13
-  );
+  let coordinates = earthquake.coordinates;
+  map = L.map("map").setView([coordinates.latitude, coordinates.longitude], 13);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -322,8 +323,8 @@ document.getElementById("close-button").addEventListener("click", function () {
 });
 
 function closeMap() {
-  mapContainer.style.visibility = 'hidden';
-  console.log('map close');
+  mapContainer.style.visibility = "hidden";
+  console.log("map close");
   map.remove();
   console.log('map removed')
   marker.remove();

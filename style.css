@@ -1,14 +1,18 @@
 /* -- GLOBAL VARIABLES -- */
-/* Color palette */
 :root {
+  /* Color palette */
   --background: #eeebe6;
   --container: #dfe7e8;
   --highlight: #8ab5bb;
   --font-bright: #ffffff;
   --font-dark: #212427;
 
+  /* Fonts */
   --font-title: "Pangolin", sans-serif;
   --font-main: "Josefin Sans", sans-serif;
+
+  /* Random number - modified in script.js with deafult value of 5px */
+  --random-int: 5px;
 }
 
 /* -- STYLE -- */
@@ -91,6 +95,32 @@ h3 {
   padding: 2rem;
   transition: height 2s ease-in-out;
   overflow: hidden;
+}
+
+#form-container.loading {
+  animation: shake 1s infinite ease-in-out; /* Apply the 'shake' animation to form-container */
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateX(var(--random-int));
+  }
+  50% {
+    transform: translateX(var(--random-int));
+    transform: translateY(var(--random-int));
+  }
+  75% {
+    transform: translateX(var(--random-int));
+    transform: translateY(var(--random-int));
+  }
+  100% {
+    transform: translateX(var(--random-int));
+    transform: translateY(var(--random-int));
+  }
 }
 
 form {
@@ -355,7 +385,7 @@ tr:nth-child(even) {
 }
 
 #richter-table th,
-td {
+#richter-table td {
   border: 2px solid var(--font-dark);
 }
 
