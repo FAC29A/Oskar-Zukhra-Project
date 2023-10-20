@@ -63,3 +63,13 @@ function showForm() {
 }
 
 newSearch.addEventListener("click", showForm);
+
+// Function to add an icon to a header cell
+function addIconToHeader(header, iconClass, iconColor, marginLeft) {
+  const icon = document.createElement("i");
+  icon.className = iconClass;
+  icon.style.color = iconColor;
+  icon.style.marginLeft = marginLeft;
+
+  header.appendChild(icon);
+}

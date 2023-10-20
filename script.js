@@ -56,6 +56,10 @@ function generateTable(data) {
     headers.forEach((headerText, index) => {
       const header = document.createElement("th");
       header.textContent = headerText;
+
+      if (index === 1) {
+        addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "10px");
+      }
       // Add ID to the "Magnitude" header
       if (index === 2) {
         header.id = "magnitudeHeader";
@@ -69,11 +73,14 @@ function generateTable(data) {
   // Create table rows with earthquake information
   data.forEach((earthquake, index) => {
     const row = document.createElement("tr");
+    row.setAttribute("index", index);
+    row.classList.add("clickablePlace");
 
     // Add index in the first column
     const indexCell = document.createElement("td");
     indexCell.textContent = index + 1;
     row.appendChild(indexCell);
+    
 
     // Extract attributes from the earthquake object
     const attributes = ["place", "magnitude", "date"];
@@ -99,17 +106,8 @@ function generateTable(data) {
         cell.textContent = value !== null ? value : "data not available";
       }
 
-      // Add a class "clickablePlace" to "Place" cells
-      if (attribute === "place") {
-        cell.classList.add("clickablePlace");
-        cell.setAttribute("index", index)
-        // Add data attributes for latitude and longitude
-        cell.setAttribute("data-lat", earthquake.coordinates.latitude);
-        cell.setAttribute("data-lon", earthquake.coordinates.longitude);
-      }
-
       row.appendChild(cell);
-      
+
     });
 
     table.appendChild(row);
@@ -162,7 +160,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
       };
       earthquakeInfo.push(info);
     });
-    console.log("array",earthquakeInfo);
+    console.log("array", earthquakeInfo);
 
     // Display the total number of earthquakes
     displayEarthquakeMessage(totalEarthquakes, radius, city);
@@ -183,7 +181,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     tableElement.appendChild(table);
     tableCreated = true;
 
-    attachClickEventToPlaceCells();
+    attachClickEventToPlaceRows();
 
     // Attach event listeners and setting sorting arrows to the Magnitude header.
     attachSortingEvents();
@@ -224,7 +222,7 @@ function setSortArrow(element, direction) {
   if (element) {
     const originalText = element.getAttribute("data-original-text");
     if (direction === 0) {
-      element.textContent = `${originalText} ▲ ▼`; // Display both ▲ and ▼
+      element.textContent = `${originalText} ▲▼`; // Display both ▲ and ▼
     } else if (direction === 1) {
       element.textContent = `${originalText} ▲`; // Up arrow
     } else {
@@ -264,12 +262,14 @@ function sortTable(column) {
 
 // Display a message based on the total number of earthquakes found within a given radius of a city
 function displayEarthquakeMessage(totalEarthquakes, radius, city) {
+  city = city.charAt(0).toUpperCase() + city.slice(1);
   const resultContainer = document.getElementById("result-container");
   resultContainer.style.display = "flex";
 
   if (totalEarthquakes > 0) {
     countResult.innerHTML = `
-      <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
+    <p>${totalEarthquakes} earthquake${totalEarthquakes > 1 ? "s" : ""} ${totalEarthquakes > 1 ? " were" : " was"} found within ${radius}km of ${city}.</p>
+    <p> Click on a row in the table to view a specific earthquake location. </p>
     `;
     collapseForm();
   } else {
@@ -280,13 +280,13 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   }
 }
 
-function attachClickEventToPlaceCells() {
-  const clickablePlaceCells = document.querySelectorAll(".clickablePlace");
-  clickablePlaceCells.forEach((cell) => {
-    cell.style.cursor = "pointer";
-    cell.addEventListener("click", () => {
+function attachClickEventToPlaceRows() {
+  const clickablePlaceRows = document.querySelectorAll(".clickablePlace");
+  clickablePlaceRows.forEach((row) => {
+    row.style.cursor = "pointer";
+    row.addEventListener("click", () => {
       // Extract the latitude and longitude from data attributes
-      let earthquake = earthquakeInfo[cell.getAttribute("index")]
+      let earthquake = earthquakeInfo[row.getAttribute("index")]
       showMapForPlace(earthquake);
     });
   });
@@ -326,6 +326,6 @@ function closeMap() {
   console.log('map close');
   map.remove();
   console.log('map removed')
-  map.removeLayer(marker);
+  marker.remove();
   console.log('marker removed')
 }
