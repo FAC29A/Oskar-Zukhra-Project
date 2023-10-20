@@ -17,7 +17,7 @@ body {
   font-family: var(--font-main);
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 200px 1fr 100px;
+  grid-template-rows: 200px 1fr 50px;
   align-items: start;
   background-color: var(--background);
   padding: 10px;
@@ -71,6 +71,10 @@ h1 {
   letter-spacing: 0.2rem;
   margin-bottom: 0;
   margin-top: 0;
+}
+
+h3 {
+  text-align: center;
 }
 
 #header-container p {
@@ -242,7 +246,7 @@ tr:nth-child(even) {
   background-color: var(--container);
 }
 
-tr:hover {
+#earthquakeTable tr:hover {
   background-color: var(--font-bright);
 }
 
@@ -260,7 +264,7 @@ tr:hover {
   border-radius: 5px;
   max-width: 960px;
   background-color: var(--highlight);
-  padding: 2rem;
+  padding: 1rem;
   overflow: auto;
 }
 
@@ -334,6 +338,25 @@ tr:hover {
   100% {
     transform: translateY(0);
   }
+}
+
+#richter-table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: hidden;
+  border: 2px solid var(--font-dark);
+  color: var(--font-dark);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#richter-table th {
+  text-align: center;
+}
+
+#richter-table th,
+td {
+  border: 2px solid var(--font-dark);
 }
 
 /* Footer */
