@@ -282,7 +282,7 @@ tr:nth-child(even) {
 
 /* Modal Windows */
 .modal {
-  position: absolute;
+  position: fixed;
   box-sizing: border-box;
   left: 8px;
   right: 8px;
@@ -335,8 +335,10 @@ tr:nth-child(even) {
   background-color: var(--highlight);
   border-radius: 50%;
   border: solid 2px var(--font-dark);
-  animation: bounce-question-mark 0.5s ease-in-out 2s 2 forwards;
+  /* animation: bounce-question-mark 0.5s ease-in-out 2s 2 forwards; */
   opacity: 0.9;
+  transition: transform 1s ease-out 1s;
+  transform: translateY(0px);
 }
 
 #help-button:hover {

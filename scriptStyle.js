@@ -47,6 +47,8 @@ const dividers = document.getElementsByClassName("divider");
 
 function collapseForm() {
   collapsible.style.height = "0px";
+  helpButton.style.animation = "none";
+  helpButton.style.transform = "translateY(-45px)";
 
   setTimeout(function () {
     collapsible.style.opacity = "0";
@@ -60,10 +62,10 @@ function showForm() {
   collapsible.style.opacity = "";
   newSearch.style.display = "none";
   collapsible.style.padding = "";
+  helpButton.style.transform = "translateY(0)";
 }
 
 newSearch.addEventListener("click", showForm);
-
 
 // Generate random value for shake effect
 const root = document.documentElement;
@@ -89,4 +91,3 @@ function addIconToHeader(header, iconClass, iconColor, marginLeft) {
 
   header.appendChild(icon);
 }
-
