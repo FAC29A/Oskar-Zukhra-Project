@@ -58,7 +58,7 @@ function generateTable(data) {
       header.textContent = headerText;
 
       if (index === 1) {
-        addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "15px");
+        addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "10px");
       }
       // Add ID to the "Magnitude" header
       if (index === 2) {
@@ -222,7 +222,7 @@ function setSortArrow(element, direction) {
   if (element) {
     const originalText = element.getAttribute("data-original-text");
     if (direction === 0) {
-      element.textContent = `${originalText} ▲ ▼`; // Display both ▲ and ▼
+      element.textContent = `${originalText} ▲▼`; // Display both ▲ and ▼
     } else if (direction === 1) {
       element.textContent = `${originalText} ▲`; // Up arrow
     } else {
@@ -262,12 +262,14 @@ function sortTable(column) {
 
 // Display a message based on the total number of earthquakes found within a given radius of a city
 function displayEarthquakeMessage(totalEarthquakes, radius, city) {
+  city = city.charAt(0).toUpperCase() + city.slice(1);
   const resultContainer = document.getElementById("result-container");
   resultContainer.style.display = "flex";
 
   if (totalEarthquakes > 0) {
     countResult.innerHTML = `
-      <p>${totalEarthquakes} earthquakes were found within ${radius}km of ${city}.</p>
+    <p>${totalEarthquakes} earthquake${totalEarthquakes > 1 ? "s" : ""} ${totalEarthquakes > 1 ? " were" : " was"} found within ${radius}km of ${city}.</p>
+    <p> Click on a row in the table to view a specific earthquake location. </p>
     `;
     collapseForm();
   } else {
