@@ -77,5 +77,4 @@ function applyRandom(min, max) {
 
 setInterval(function () {
   applyRandom();
-  console.log("random value:" + applyRandom(-5, 5));
 }, 100);
