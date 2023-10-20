@@ -56,6 +56,10 @@ function generateTable(data) {
     headers.forEach((headerText, index) => {
       const header = document.createElement("th");
       header.textContent = headerText;
+
+      if (headerText === "Place") {
+        addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "10px");
+      }
       // Add ID to the "Magnitude" header
       if (index === 2) {
         header.id = "magnitudeHeader";
@@ -103,13 +107,10 @@ function generateTable(data) {
       if (attribute === "place") {
         cell.classList.add("clickablePlace");
         cell.setAttribute("index", index)
-        // Add data attributes for latitude and longitude
-        cell.setAttribute("data-lat", earthquake.coordinates.latitude);
-        cell.setAttribute("data-lon", earthquake.coordinates.longitude);
       }
 
       row.appendChild(cell);
-      
+
     });
 
     table.appendChild(row);
@@ -162,7 +163,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
       };
       earthquakeInfo.push(info);
     });
-    console.log("array",earthquakeInfo);
+    console.log("array", earthquakeInfo);
 
     // Display the total number of earthquakes
     displayEarthquakeMessage(totalEarthquakes, radius, city);
@@ -326,6 +327,6 @@ function closeMap() {
   console.log('map close');
   map.remove();
   console.log('map removed')
-  map.removeLayer(marker);
+  marker.remove();
   console.log('marker removed')
 }
