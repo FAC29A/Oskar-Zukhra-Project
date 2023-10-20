@@ -1,14 +1,18 @@
 /* -- GLOBAL VARIABLES -- */
-/* Color palette */
 :root {
+  /* Color palette */
   --background: #eeebe6;
   --container: #dfe7e8;
   --highlight: #8ab5bb;
   --font-bright: #ffffff;
   --font-dark: #212427;
 
+  /* Fonts */
   --font-title: "Pangolin", sans-serif;
   --font-main: "Josefin Sans", sans-serif;
+
+  /* Random number - modified in script.js with deafult value of 5px */
+  --random-int: 5px;
 }
 
 /* -- STYLE -- */
@@ -94,7 +98,7 @@ h3 {
 }
 
 #form-container.loading {
-  animation: shake 0.5s infinite; /* Apply the 'shake' animation to form-container */
+  animation: shake 1s infinite ease-in-out; /* Apply the 'shake' animation to form-container */
 }
 
 @keyframes shake {
@@ -103,19 +107,19 @@ h3 {
     transform: translateY(0);
   }
   25% {
-    transform: translateX(-5px);
+    transform: translateX(var(--random-int));
   }
   50% {
-    transform: translateX(5px);
-    transform: translateY(5px);
+    transform: translateX(var(--random-int));
+    transform: translateY(var(--random-int));
   }
   75% {
-    transform: translateX(-5px);
-    transform: translateY(-5px);
+    transform: translateX(var(--random-int));
+    transform: translateY(var(--random-int));
   }
   100% {
-    transform: translateX(5px);
-    transform: translateY(3px);
+    transform: translateX(var(--random-int));
+    transform: translateY(var(--random-int));
   }
 }
 

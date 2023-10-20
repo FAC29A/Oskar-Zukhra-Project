@@ -63,3 +63,19 @@ function showForm() {
 }
 
 newSearch.addEventListener("click", showForm);
+
+// Generate random value for shake effect
+const root = document.documentElement;
+
+function applyRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  let random = Math.floor(Math.random() * (max - min + 1)) + min + "px";
+  root.style.setProperty("--random-int", random);
+  return random;
+}
+
+setInterval(function () {
+  applyRandom();
+  console.log("random value:" + applyRandom(-5, 5));
+}, 100);
