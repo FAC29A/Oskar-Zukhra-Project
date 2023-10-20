@@ -57,8 +57,8 @@ function generateTable(data) {
       const header = document.createElement("th");
       header.textContent = headerText;
 
-      if (headerText === "Place") {
-        addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "10px");
+      if (index === 1) {
+        addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "15px");
       }
       // Add ID to the "Magnitude" header
       if (index === 2) {
@@ -73,11 +73,14 @@ function generateTable(data) {
   // Create table rows with earthquake information
   data.forEach((earthquake, index) => {
     const row = document.createElement("tr");
+    row.setAttribute("index", index);
+    row.classList.add("clickablePlace");
 
     // Add index in the first column
     const indexCell = document.createElement("td");
     indexCell.textContent = index + 1;
     row.appendChild(indexCell);
+    
 
     // Extract attributes from the earthquake object
     const attributes = ["place", "magnitude", "date"];
@@ -101,12 +104,6 @@ function generateTable(data) {
       } else {
         // Check if the value is null, if so, display "data not available"
         cell.textContent = value !== null ? value : "data not available";
-      }
-
-      // Add a class "clickablePlace" to "Place" cells
-      if (attribute === "place") {
-        cell.classList.add("clickablePlace");
-        cell.setAttribute("index", index)
       }
 
       row.appendChild(cell);
@@ -184,7 +181,7 @@ earthquakeForm.addEventListener("submit", async function (e) {
     tableElement.appendChild(table);
     tableCreated = true;
 
-    attachClickEventToPlaceCells();
+    attachClickEventToPlaceRows();
 
     // Attach event listeners and setting sorting arrows to the Magnitude header.
     attachSortingEvents();
@@ -281,13 +278,13 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   }
 }
 
-function attachClickEventToPlaceCells() {
-  const clickablePlaceCells = document.querySelectorAll(".clickablePlace");
-  clickablePlaceCells.forEach((cell) => {
-    cell.style.cursor = "pointer";
-    cell.addEventListener("click", () => {
+function attachClickEventToPlaceRows() {
+  const clickablePlaceRows = document.querySelectorAll(".clickablePlace");
+  clickablePlaceRows.forEach((row) => {
+    row.style.cursor = "pointer";
+    row.addEventListener("click", () => {
       // Extract the latitude and longitude from data attributes
-      let earthquake = earthquakeInfo[cell.getAttribute("index")]
+      let earthquake = earthquakeInfo[row.getAttribute("index")]
       showMapForPlace(earthquake);
     });
   });
