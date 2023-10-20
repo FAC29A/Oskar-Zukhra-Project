@@ -385,7 +385,7 @@ tr:nth-child(even) {
 }
 
 #richter-table th,
-td {
+#richter-table td {
   border: 2px solid var(--font-dark);
 }
 
