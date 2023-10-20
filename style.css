@@ -93,6 +93,32 @@ h3 {
   overflow: hidden;
 }
 
+#form-container.loading {
+  animation: shake 0.5s infinite; /* Apply the 'shake' animation to form-container */
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+    transform: translateY(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+    transform: translateY(3px);
+  }
+}
+
 form {
   display: flex;
   flex-direction: column;
