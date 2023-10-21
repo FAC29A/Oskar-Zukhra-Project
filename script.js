@@ -61,9 +61,11 @@ function generateTable(data) {
       if (index === 1) {
         addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "10px");
       }
-      // Add ID to the "Magnitude" header
+      // Add ID to the "Magnitude" and the Date headers
       if (index === 2) {
         header.id = "magnitudeHeader";
+      } else if (index === 3) {
+        header.id = "dateHeader";
       }
 
       headerRow.appendChild(header);
@@ -198,14 +200,17 @@ earthquakeForm.addEventListener("submit", async function (e) {
 // Attach event listeners and setting sorting arrows to the Magnitude header.
 function attachSortingEvents() {
   const magnitudeHeader = document.getElementById("magnitudeHeader");
+  const dateHeader = document.getElementById("dateHeader");
 
   //Avoid errors when the table is empty and the header row is not displayed
   if (magnitudeHeader) {
     // Store the original text in a data attribute
     magnitudeHeader.setAttribute("data-original-text", "Magnitude");
+    dateHeader.setAttribute("data-original-text", "Date");
 
     // Display both ascending (▲) and descending (▼) sorting symbols
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
+    setSortArrow(dateHeader, 0); 
 
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
