@@ -22,7 +22,6 @@ async function fetchData(url) {
 
 // Function to fetch latitude and longitude based on the city
 async function fetchGeoData(city) {
-  console.log(city);
   const geoUrl = `https://nominatim.openstreetmap.org/search?addressdetails=1&q=${city}&format=jsonv2&limit=1`;
   const data = await fetchData(geoUrl);
   return {
@@ -41,7 +40,6 @@ async function fetchEarthquakeData(
 ) {
   const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}&starttime=${startDate}&endtime=${endDate}&format=geojson`;
   const data = await fetchData(apiUrl);
-  console.log(data);
   return data.features;
 }
 
@@ -104,7 +102,6 @@ function generateTable(data) {
           minute: "2-digit",
         });
         cell.textContent = formattedDate;
-        console.log(typeof formattedDate, formattedDate)
       } else {
         // Check if the value is null, if so, display "data not available"
         cell.textContent = value !== null ? value : "data not available";
@@ -135,7 +132,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
     const result = await fetchGeoData(city);
     const latitude = result.latitude;
     const longitude = result.longitude;
-    console.log(latitude, longitude);
     const startDate = `${startYear}-01-01T00:00:00`;
     const endDate = `${endYear}-12-31T23:59:59`;
 
@@ -165,7 +161,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
       };
       earthquakeInfo.push(info);
     });
-    console.log("array", earthquakeInfo);
 
     // Display the total number of earthquakes
     displayEarthquakeMessage(totalEarthquakes, radius, city);
