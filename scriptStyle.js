@@ -88,6 +88,7 @@ function addIconToHeader(header, iconClass, iconColor, marginLeft) {
   icon.className = iconClass;
   icon.style.color = iconColor;
   icon.style.marginLeft = marginLeft;
-
   header.appendChild(icon);
 }
+
+

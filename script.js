@@ -77,11 +77,37 @@ function generateTable(data) {
     row.setAttribute("index", index);
     row.classList.add("clickablePlace");
 
+    // Add tabindex to make rows focusable
+    row.setAttribute("tabindex", "0");
+    // Add a keydown event listener for handling Enter key press
+    row.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        showMapForPlace(earthquake);
+      }
+    });
+
+    // Add a data attribute to store the original background color
+    row.dataset.originalBgColor = "";
+
+    // Add focus event listener for keyboard navigation
+    row.addEventListener("focus", () => {
+      // Save the original background color
+      row.dataset.originalBgColor = row.style.backgroundColor;
+      // Add styling to indicate focused row (e.g., change background color)
+      row.style.backgroundColor = "white";
+    });
+
+    // Add blur event listener for keyboard navigation
+    row.addEventListener("blur", () => {
+      // Restore the original background color
+      row.style.backgroundColor = row.dataset.originalBgColor;
+    });
+
     // Add index in the first column
     const indexCell = document.createElement("td");
     indexCell.textContent = index + 1;
     row.appendChild(indexCell);
-    
+
 
     // Extract attributes from the earthquake object
     const attributes = ["place", "magnitude", "date"];
@@ -206,14 +232,14 @@ function attachSortingEvents() {
 
     // Display both ascending (▲) and descending (▼) sorting symbols
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
-    setSortArrow(dateHeader, 0); 
+    setSortArrow(dateHeader, 0);
 
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
       setSortArrow(magnitudeHeader, sortDirections[2]);
     });
-     
+
     dateHeader.addEventListener("click", () => {
       sortTable(3); // Sort by Date
       setSortArrow(dateHeader, sortDirections[3]);
