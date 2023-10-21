@@ -246,12 +246,14 @@ button:active {
 
 #tableElement {
   width: 100%;
+  max-width: calc(100vw - 1rem);
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 #earthquakeTable {
   border-collapse: collapse;
   width: 100%;
-  overflow-x: hidden;
   border: 2px solid var(--highlight);
   color: var(--font-dark);
   margin-left: auto;
