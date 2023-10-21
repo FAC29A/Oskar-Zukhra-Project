@@ -272,7 +272,7 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   if (totalEarthquakes > 0) {
     countResult.innerHTML = `
     <p>${totalEarthquakes} earthquake${totalEarthquakes > 1 ? "s" : ""} ${totalEarthquakes > 1 ? " were" : " was"} found within ${radius}km of ${city}.</p>
-    <p> Click on a row in the table to view a specific earthquake location. </p>
+    <p class="message-color"> Click any row to view the location map. </p>
     `;
     collapseForm();
   } else {
