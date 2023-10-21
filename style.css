@@ -6,6 +6,7 @@
   --highlight: #8ab5bb;
   --font-bright: #ffffff;
   --font-dark: #212427;
+  --font-green: #056571;
 
   /* Fonts */
   --font-title: "Pangolin", sans-serif;
@@ -454,4 +455,10 @@ footer {
   top: 50px;
   margin: auto;
   border-radius: 5px;
+}
+
+.message-color {
+  font-size: 1rem;
+  color: var(--font-green);
+  font-weight: bold;
 }

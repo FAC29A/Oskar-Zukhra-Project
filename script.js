@@ -22,7 +22,6 @@ async function fetchData(url) {
 
 // Function to fetch latitude and longitude based on the city
 async function fetchGeoData(city) {
-  console.log(city);
   const geoUrl = `https://nominatim.openstreetmap.org/search?addressdetails=1&q=${city}&format=jsonv2&limit=1`;
   const data = await fetchData(geoUrl);
   return {
@@ -41,7 +40,6 @@ async function fetchEarthquakeData(
 ) {
   const apiUrl = `https://earthquake.usgs.gov/fdsnws/event/1/query?latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}&starttime=${startDate}&endtime=${endDate}&format=geojson`;
   const data = await fetchData(apiUrl);
-  console.log(data);
   return data.features;
 }
 
@@ -61,9 +59,11 @@ function generateTable(data) {
       if (index === 1) {
         addIconToHeader(header, "fa-solid fa-map-location-dot", "black", "10px");
       }
-      // Add ID to the "Magnitude" header
+      // Add ID to the "Magnitude" and the Date headers
       if (index === 2) {
         header.id = "magnitudeHeader";
+      } else if (index === 3) {
+        header.id = "dateHeader";
       }
 
       headerRow.appendChild(header);
@@ -132,7 +132,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
     const result = await fetchGeoData(city);
     const latitude = result.latitude;
     const longitude = result.longitude;
-    console.log(latitude, longitude);
     const startDate = `${startYear}-01-01T00:00:00`;
     const endDate = `${endYear}-12-31T23:59:59`;
 
@@ -162,7 +161,6 @@ earthquakeForm.addEventListener("submit", async function (e) {
       };
       earthquakeInfo.push(info);
     });
-    console.log("array", earthquakeInfo);
 
     // Display the total number of earthquakes
     displayEarthquakeMessage(totalEarthquakes, radius, city);
@@ -198,19 +196,27 @@ earthquakeForm.addEventListener("submit", async function (e) {
 // Attach event listeners and setting sorting arrows to the Magnitude header.
 function attachSortingEvents() {
   const magnitudeHeader = document.getElementById("magnitudeHeader");
+  const dateHeader = document.getElementById("dateHeader");
 
   //Avoid errors when the table is empty and the header row is not displayed
   if (magnitudeHeader) {
     // Store the original text in a data attribute
     magnitudeHeader.setAttribute("data-original-text", "Magnitude");
+    dateHeader.setAttribute("data-original-text", "Date");
 
     // Display both ascending (▲) and descending (▼) sorting symbols
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
+    setSortArrow(dateHeader, 0); 
 
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
       setSortArrow(magnitudeHeader, sortDirections[2]);
+    });
+     
+    dateHeader.addEventListener("click", () => {
+      sortTable(3); // Sort by Date
+      setSortArrow(dateHeader, sortDirections[3]);
     });
   }
 }
@@ -218,6 +224,7 @@ function attachSortingEvents() {
 // Keep track of sorting direction for each column
 const sortDirections = {
   2: 1, // Default for column 2 ("Magnitude"); 1 represents ascending order
+  3: 1, // Default for column 3 ("Date")
 };
 
 // Function to set the content for the sorting arrows
@@ -246,8 +253,15 @@ function sortTable(column) {
     // Determine the sorting order based on the column and direction
     const order = sortDirections[column];
 
-    // Compare as strings
-    return aValue.localeCompare(bValue) * order;
+    if (column === 3) {
+      // For the "Date" column, parse and compare as dates
+      const aDate = parseCustomDate(aValue);
+      const bDate = parseCustomDate(bValue);
+      return (aDate - bDate) * order;
+    } else {
+      // For other columns, compare as strings
+      return aValue.localeCompare(bValue) * order;
+    }
   });
 
   // Toggle the sorting direction for the current column
@@ -272,7 +286,7 @@ function displayEarthquakeMessage(totalEarthquakes, radius, city) {
   if (totalEarthquakes > 0) {
     countResult.innerHTML = `
     <p>${totalEarthquakes} earthquake${totalEarthquakes > 1 ? "s" : ""} ${totalEarthquakes > 1 ? " were" : " was"} found within ${radius}km of ${city}.</p>
-    <p> Click on a row in the table to view a specific earthquake location. </p>
+    <p class="message-color"> Click any row to view the location map. </p>
     `;
     collapseForm();
   } else {
@@ -324,9 +338,20 @@ document.getElementById("close-button").addEventListener("click", function () {
 
 function closeMap() {
   mapContainer.style.visibility = "hidden";
-  console.log("map close");
   map.remove();
-  console.log('map removed')
   marker.remove();
-  console.log('marker removed')
+}
+
+// Function to parse a date in the "dd/mm/yyyy, hh:mm" format
+function parseCustomDate(dateString) {
+  const parts = dateString.split(', ');
+  if (parts.length === 2) {
+    const [datePart, timePart] = parts;
+    const [day, month, year] = datePart.split('/').map(Number);
+    const [hour, minute] = timePart.split(':').map(Number);
+    if (!isNaN(day) && !isNaN(month) && !isNaN(year) && !isNaN(hour) && !isNaN(minute)) {
+      return new Date(year, month - 1, day, hour, minute);
+    }
+  }
+  return null; // Return null if parsing fails
 }
