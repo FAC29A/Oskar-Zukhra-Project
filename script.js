@@ -104,6 +104,7 @@ function generateTable(data) {
           minute: "2-digit",
         });
         cell.textContent = formattedDate;
+        console.log(typeof formattedDate, formattedDate)
       } else {
         // Check if the value is null, if so, display "data not available"
         cell.textContent = value !== null ? value : "data not available";
@@ -217,12 +218,18 @@ function attachSortingEvents() {
       sortTable(2); // Sort by Magnitude
       setSortArrow(magnitudeHeader, sortDirections[2]);
     });
+     
+    dateHeader.addEventListener("click", () => {
+      sortTable(3); // Sort by Date
+      setSortArrow(dateHeader, sortDirections[3]);
+    });
   }
 }
 
 // Keep track of sorting direction for each column
 const sortDirections = {
   2: 1, // Default for column 2 ("Magnitude"); 1 represents ascending order
+  3: 1, // Default for column 3 ("Date")
 };
 
 // Function to set the content for the sorting arrows
@@ -251,8 +258,15 @@ function sortTable(column) {
     // Determine the sorting order based on the column and direction
     const order = sortDirections[column];
 
-    // Compare as strings
-    return aValue.localeCompare(bValue) * order;
+    if (column === 3) {
+      // For the "Date" column, parse and compare as dates
+      const aDate = parseCustomDate(aValue);
+      const bDate = parseCustomDate(bValue);
+      return (aDate - bDate) * order;
+    } else {
+      // For other columns, compare as strings
+      return aValue.localeCompare(bValue) * order;
+    }
   });
 
   // Toggle the sorting direction for the current column
@@ -329,9 +343,20 @@ document.getElementById("close-button").addEventListener("click", function () {
 
 function closeMap() {
   mapContainer.style.visibility = "hidden";
-  console.log("map close");
   map.remove();
-  console.log('map removed')
   marker.remove();
-  console.log('marker removed')
+}
+
+// Function to parse a date in the "dd/mm/yyyy, hh:mm" format
+function parseCustomDate(dateString) {
+  const parts = dateString.split(', ');
+  if (parts.length === 2) {
+    const [datePart, timePart] = parts;
+    const [day, month, year] = datePart.split('/').map(Number);
+    const [hour, minute] = timePart.split(':').map(Number);
+    if (!isNaN(day) && !isNaN(month) && !isNaN(year) && !isNaN(hour) && !isNaN(minute)) {
+      return new Date(year, month - 1, day, hour, minute);
+    }
+  }
+  return null; // Return null if parsing fails
 }
