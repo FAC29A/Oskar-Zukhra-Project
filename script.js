@@ -86,23 +86,6 @@ function generateTable(data) {
       }
     });
 
-    // Add a data attribute to store the original background color
-    row.dataset.originalBgColor = "";
-
-    // Add focus event listener for keyboard navigation
-    row.addEventListener("focus", () => {
-      // Save the original background color
-      row.dataset.originalBgColor = row.style.backgroundColor;
-      // Add styling to indicate focused row (e.g., change background color)
-      row.style.backgroundColor = "white";
-    });
-
-    // Add blur event listener for keyboard navigation
-    row.addEventListener("blur", () => {
-      // Restore the original background color
-      row.style.backgroundColor = row.dataset.originalBgColor;
-    });
-
     // Add index in the first column
     const indexCell = document.createElement("td");
     indexCell.textContent = index + 1;
@@ -255,6 +238,7 @@ const sortDirections = {
 
 // Function to set the content for the sorting arrows
 function setSortArrow(element, direction) {
+  element.style.cursor = "pointer";
   if (element) {
     const originalText = element.getAttribute("data-original-text");
     if (direction === 0) {
@@ -362,17 +346,6 @@ const closeMapButton = document.getElementById("close-button");
 closeMapButton.addEventListener("click", function () {
   closeMap();
 });
-
-
-// Accessability
-closeMapButton.setAttribute("tabindex", "0");
-// Add a keydown event listener for the button to handle Enter key press
-document.getElementById("close-button").addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    closeMap();
-  }
-});
-
 
 function closeMap() {
   mapContainer.style.visibility = "hidden";

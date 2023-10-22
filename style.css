@@ -465,5 +465,6 @@ footer {
 
 /* Add a focus outline for all tabbable elements */
 *:focus {
-  outline: 2px solid blue; /* You can customize the color and style */
+  outline: 2px solid  #2b9f8a;
+  ;
 }
