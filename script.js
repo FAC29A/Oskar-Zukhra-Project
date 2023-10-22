@@ -77,11 +77,20 @@ function generateTable(data) {
     row.setAttribute("index", index);
     row.classList.add("clickablePlace");
 
+    // Add tabindex to make rows focusable
+    row.setAttribute("tabindex", "0");
+    // Add a keydown event listener for handling Enter key press
+    row.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        showMapForPlace(earthquake);
+      }
+    });
+
     // Add index in the first column
     const indexCell = document.createElement("td");
     indexCell.textContent = index + 1;
     row.appendChild(indexCell);
-    
+
 
     // Extract attributes from the earthquake object
     const attributes = ["place", "magnitude", "date"];
@@ -206,14 +215,14 @@ function attachSortingEvents() {
 
     // Display both ascending (▲) and descending (▼) sorting symbols
     setSortArrow(magnitudeHeader, 0); // 0 represents no sorting direction
-    setSortArrow(dateHeader, 0); 
+    setSortArrow(dateHeader, 0);
 
     // Add event listeners to the specific headers for sorting
     magnitudeHeader.addEventListener("click", () => {
       sortTable(2); // Sort by Magnitude
       setSortArrow(magnitudeHeader, sortDirections[2]);
     });
-     
+
     dateHeader.addEventListener("click", () => {
       sortTable(3); // Sort by Date
       setSortArrow(dateHeader, sortDirections[3]);
@@ -229,6 +238,7 @@ const sortDirections = {
 
 // Function to set the content for the sorting arrows
 function setSortArrow(element, direction) {
+  element.style.cursor = "pointer";
   if (element) {
     const originalText = element.getAttribute("data-original-text");
     if (direction === 0) {
@@ -332,9 +342,11 @@ function showMapForPlace(earthquake) {
   map.invalidateSize();
 }
 
-document.getElementById("close-button").addEventListener("click", function () {
+const closeMapButton = document.getElementById("close-button");
+closeMapButton.addEventListener("click", function () {
   closeMap();
 });
+
 
 function closeMap() {
   mapContainer.style.visibility = "hidden";

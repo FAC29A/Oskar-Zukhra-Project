@@ -26,10 +26,21 @@ function hideModal() {
 }
 
 helpButton.addEventListener("click", showHelpModal);
+helpButton.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    showHelpModal();
+  }
+});
 
 modals.forEach((modal) => {
   modal.querySelector(".close").addEventListener("click", function () {
     hideModal();
+  });
+
+  modal.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      hideModal();
+    }
   });
 
   window.addEventListener("keydown", function (event) {
@@ -88,6 +99,6 @@ function addIconToHeader(header, iconClass, iconColor, marginLeft) {
   icon.className = iconClass;
   icon.style.color = iconColor;
   icon.style.marginLeft = marginLeft;
-
   header.appendChild(icon);
 }
+
