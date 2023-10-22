@@ -91,4 +91,3 @@ function addIconToHeader(header, iconClass, iconColor, marginLeft) {
   header.appendChild(icon);
 }
 
-

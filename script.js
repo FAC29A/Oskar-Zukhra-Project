@@ -358,9 +358,21 @@ function showMapForPlace(earthquake) {
   map.invalidateSize();
 }
 
-document.getElementById("close-button").addEventListener("click", function () {
+const closeMapButton = document.getElementById("close-button");
+closeMapButton.addEventListener("click", function () {
   closeMap();
 });
+
+
+// Accessability
+closeMapButton.setAttribute("tabindex", "0");
+// Add a keydown event listener for the button to handle Enter key press
+document.getElementById("close-button").addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    closeMap();
+  }
+});
+
 
 function closeMap() {
   mapContainer.style.visibility = "hidden";
