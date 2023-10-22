@@ -347,6 +347,7 @@ closeMapButton.addEventListener("click", function () {
   closeMap();
 });
 
+
 function closeMap() {
   mapContainer.style.visibility = "hidden";
   map.remove();

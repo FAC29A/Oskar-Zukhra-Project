@@ -23,7 +23,7 @@
     <main>
       <div id="body-content">
         <hr class="divider">
-        <button type="button" id="new-search-button">New Search</button>
+        <button type="button" id="new-search-button" class="button">New Search</button>
         <div id="form-container">
           <form id="earthquakeForm">
             <label for="city">City:</label>
@@ -59,76 +59,76 @@
           <p id="countResult"></p>
           <div id="tableElement"></div>
         </div>
-        <div id="help-button">
-          <img
+        <div id="help-button" tabindex="0">
+          <img 
             src="images/question-mark.png"
             alt="question mark"
             id="question-mark"
           />
         </div>
         <div id="map-container">
-          <div id="close-button" class="close-button">&times;</div>
+          <button id="close-button" class="close-button">&times;</button>
           <div id="map"></div>
         </div>
       </div>
+      <div id="loader" class="loader"></div>
+      <div id="help-window" class="modal">
+        <div class="modal-content">
+          <div class="close-button" tabindex="0" id="help-close-button"><span class="close">&times;</span></div>
+          <article id="help-content">
+            <h2>Help</h2>
+            <p>This page can be used to search historical records of earthquakes in your area, or any other area. Just enter the city, time period and search radius from your chosen location and records found will be displayed. Use table below as a reference to better understand how strong the recorded earthquakes were.</p>
+            <h3>Richter Scale</h3>
+            <table id="richter-table">
+              <thead>
+                <tr>
+                  <th>Magnitude</th>
+                  <th>Category</th>
+                  <th>Effects</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;1.0 to 2.9</td>
+                  <td>micro</td>
+                  <td>generally not felt by people, though recorded on local instruments</td>
+                </tr>
+                <tr>
+                  <td>3.0 - 3.9</td>
+                  <td>minor</td>
+                  <td>felt by many people; no damage</td>
+                </tr>
+                <tr>
+                  <td>4.0 - 4.9</td>
+                  <td>light</td>
+                  <td>felt by all; minor breakage of objects</td>
+                </tr>
+                <tr>
+                  <td>5.0 - 5.9</td>
+                  <td>moderate</td>
+                  <td>some damage to weak structures</td>
+                </tr>
+                <tr>
+                  <td>6.0 - 6.9</td>
+                  <td>strong</td>
+                  <td>moderate damage in populated areas</td>
+                </tr>
+                <tr>
+                  <td>7.0 - 7.9</td>
+                  <td>major</td>
+                  <td>serious damage over large areas; loss of life</td>
+                </tr>
+                <tr>
+                  <td> &gt;=8.0</td>
+                  <td>great</td>
+                  <td>severe destruction and loss of life over large areas</td>
+                </tr>
+              </tbody>
+              </table>
+          </article>
+      </div>
     </main>
     <footer>Created by Oskar & Zukhra for FAC29A</footer>
-    <div id="loader" class="loader"></div>
-    <div id="help-window" class="modal">
-      <div class="modal-content">
-        <div class="close-button"><span class="close">&times;</span></div>
-        <article id="help-content">
-          <h2>Help</h2>
-          <p>This page can be used to search historical records of earthquakes in your area, or any other area. Just enter the city, time period and search radius from your chosen location and records found will be displayed. Use table below as a reference to better understand how strong the recorded earthquakes were.</p>
-          <h3>Richter Scale</h3>
-          <table id="richter-table">
-            <thead>
-              <tr>
-                <th>Magnitude</th>
-                <th>Category</th>
-                <th>Effects</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>&lt;1.0 to 2.9</td>
-                <td>micro</td>
-                <td>generally not felt by people, though recorded on local instruments</td>
-              </tr>
-              <tr>
-                <td>3.0 - 3.9</td>
-                <td>minor</td>
-                <td>felt by many people; no damage</td>
-              </tr>
-              <tr>
-                <td>4.0 - 4.9</td>
-                <td>light</td>
-                <td>felt by all; minor breakage of objects</td>
-              </tr>
-              <tr>
-                <td>5.0 - 5.9</td>
-                <td>moderate</td>
-                <td>some damage to weak structures</td>
-              </tr>
-              <tr>
-                <td>6.0 - 6.9</td>
-                <td>strong</td>
-                <td>moderate damage in populated areas</td>
-              </tr>
-              <tr>
-                <td>7.0 - 7.9</td>
-                <td>major</td>
-                <td>serious damage over large areas; loss of life</td>
-              </tr>
-              <tr>
-                <td> &gt;=8.0</td>
-                <td>great</td>
-                <td>severe destruction and loss of life over large areas</td>
-              </tr>
-            </tbody>
-            </table>
-        </article>
-    </div>
     <script src="scriptStyle.js"></script>
     <script src="script.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>

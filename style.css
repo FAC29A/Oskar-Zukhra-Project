@@ -207,7 +207,7 @@ button {
   transition: background-position 0.3s ease;
 }
 
-button:hover {
+button:not(#close-button):hover {
   background-position: 0 0;
 }
 
@@ -431,7 +431,6 @@ footer {
   }
 }
 
-/* Initially hide the map */
 #map-container {
   position: fixed;
   box-sizing: border-box;
@@ -463,7 +462,6 @@ footer {
   font-weight: bold;
 }
 
-/* Add a focus outline for all tabbable elements */
 *:focus {
   outline: 2px solid  #2b9f8a;
   ;
