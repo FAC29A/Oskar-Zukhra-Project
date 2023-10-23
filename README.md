@@ -41,7 +41,7 @@ We provide our users with some extra features:
 
 We added extra features that go beyond the project requirements.
 
-1. **Location Map:** a library has been used to implement visual representation of earthquake location. User can click on a chosen data row to see a pop-up map with a location marker.
+1. **Location Map:** Leaflet library has been used to implement visual representation of earthquake location. User can click on a chosen data row to see a pop-up map with a location marker.
 2. **Help Section:** user can learn how to use the page and is given additional information by opening a help section in a pop-up window.
 3. **Earthquake Loading Animation:** as a visual, in addition to a standard loader, form element shakes according to a randomised animation function to give a visual impression of an earthquake while data is loading.
 
@@ -52,7 +52,7 @@ We added extra features that go beyond the project requirements.
 3. Fill out the form with your desired parameters, such as city, start date, end date, and radius.
 4. Click the "Search" button to retrieve earthquake data based on your input.
 5. Browse and interact with the earthquake data presented in the table.
-6. You can sort the table by clicking on the header of the "Magnitude" column to toggle between ascending and descending order.
+6. You can sort the table by clicking on the headers of the "Magnitude" and "Date" column to toggle between ascending and descending order.
 7. Explore the earthquake data and stay informed about seismic activity in your specified area.
 
 Enjoy your experience with Quake Finder and feel free to contribute to the project!

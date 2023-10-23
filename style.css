@@ -210,6 +210,7 @@ button {
 
 button:not(#close-button):hover {
   background-position: 0 0;
+  cursor: pointer;
 }
 
 button:active {
