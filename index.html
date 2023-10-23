@@ -27,19 +27,21 @@
         <div id="form-container">
           <form id="earthquakeForm">
             <label for="city">City:</label>
-            <input type="text" id="city" placeholder="London" required />
+            <input type="text" id="city" placeholder="Your city name" required />
             <label for="startYear">Start Year:</label>
             <input
               type="number"
               id="startYear"
-              placeholder="1970"
+              placeholder="YYYY"
+              min="1800"
               required
             />
             <label for="endYear">End Year:</label>
             <input
               type="number"
               id="endYear"
-              placeholder="2023"
+              placeholder="YYYY"
+              min="1800"
               required
             />
             <label for="radius">Radius: <span id="radius-value"></span></label>
